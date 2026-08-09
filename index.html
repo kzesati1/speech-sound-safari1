@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech Sentence Generator</title>
+  <style>
+    body {
+      font-family: Chalkboard SE, sans-serif;
+      background: linear-gradient(
+    to bottom,
+  #bde0fe,
+  #d8f3dc,
+  #95d5b2
+  );
+min-height: 100%;
+  margin: 0;
+      padding: 30px;
+      text-align: center;
+  background-attachment: fixed;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+ #soundPromptArea {
+    text-align: center;
+    margin-top: 25px;
+  }
+
+  #soundPromptImage {
+    max-width: 300px;
+    display: none;
+  border: 6px solid #4a5e24;
+  border-radius: 25px;
+  padding: 10px;
+  background: white;
+  }
+
+    .card {
+      background-image: url("background picture/safari.png");
+background-size: cover;
+background-position: center;
+      border-radius: 18px;
+      padding: 40px;
+      max-width: 2500px;
+  min-height: 1200px;
+      margin: -100px auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .sentence {
+      font-size: 80px;
+      font-weight: bold;
+   margin: 20px 0 40px 0;
+    }
+
+    .pictures {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+.word-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  width: 480px;
+
+  font-size: 70px;
+  font-weight: bold;
+
+  border: 6px solid #4a5e24;
+    }
+
+.word-card img {
+  width: 100%;
+  height: 600px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 10px auto;
+    }
+
+.prompt-card img {
+  width: 100%;
+  display: block;
+}
+
+.prompt-card {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  width: 480px;
+  border: 6px solid #4a5e24;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+    button, select {
+      font-size: 30px;
+font-family: "Chalkboard SE";
+      padding: 12px 18px;
+      margin: 8px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+
+width: 300px;
+    }
+
+.go-button {
+  background: linear-gradient(to bottom, #7ed957, #2d6a4f);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+
+  box-shadow:
+    0 8px 0 #1b4332,
+    0 12px 20px rgba(0,0,0,0.3);
+
+  transition: all 0.1s ease;
+  cursor: pointer;
+}
+
+.go-button:hover {
+  transform: scale(1.05);
+}
+
+.go-button:active {
+  transform: translateY(6px);
+
+  box-shadow:
+    0 2px 0 #1b4332,
+    0 4px 8px rgba(0,0,0,0.3);
+}
+
+.reset-button {
+  background: linear-gradient(to bottom, #ffb703, #fb8500);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+
+  box-shadow:
+    0 8px 0 #c76b00,
+    0 12px 20px rgba(0,0,0,0.3);
+
+  transition: all 0.1s ease;
+  cursor: pointer;
+}
+
+.reset-button:hover {
+  transform: scale(1.05);
+}
+
+.reset-button:active {
+  transform: translateY(6px);
+
+  box-shadow:
+    0 2px 0 #c76b00,
+    0 4px 8px rgba(0,0,0,0.3);
+}
+
+label {
+  font-size: 48px;
+  font-weight: bold;
+
+  color: black;
+
+  display: block;
+
+  margin-top: -40px;
+  margin-bottom: 20px;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  max-width: 450px;
+  height: 180px;
+
+  overflow-y: auto;
+
+  margin: 0 auto 20px auto;
+
+padding: 30px 20px 20px 20px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  border: 4px solid #4a5e24;
+  box-sizing: border-box;
+}
+
+.checkbox-container label {
+  font-size: 22px;
+
+  background: #f8fff4;
+
+  padding: 10px 14px;
+
+  border-radius: 12px;
+
+  border: 3px solid #4a5e24;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container input {
+  margin-right: 8px;
+  transform: scale(1.3);
+}
+
+.checkbox-container label:first-child {
+  margin-top: 10px;
+}
+
+.checkbox-container label {
+  font-size: 22px;
+
+  background: #f8fff4;
+
+  padding: 10px 14px;
+
+  border-radius: 12px;
+
+  border: 3px solid #4a5e24;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container input {
+  margin-right: 8px;
+  transform: scale(1.3);
+}
+
+.title-image {
+  width: 1000px;
+  max-width: 95%;
+  height: auto;
+  margin-bottom: -80px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.practice-dots {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.practice-dot {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #4a5e24;
+  background: white;
+  font-size: 65px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1;
+  padding: 0;
+
+}
+
+.practice-dot.completed {
+  background: #fef3c7;
+}
+  </style>
+</head>
+<body>
+ <img src="title picture/speechsoundsafari.png" class="title-image">
+
+  <div class="card">
+    <label for="soundFilter">Choose your speech sounds:</label>
+    <div id="soundFilter" class="checkbox-container">
+
+<label><input type="checkbox" value="p-initial"> Initial /p/</label>
+<label><input type="checkbox" value="p-medial"> Medial /p/</label>
+<label><input type="checkbox" value="p-final"> Final /p/</label>
+
+<label><input type="checkbox" value="b-initial"> Initial /b/</label>
+<label><input type="checkbox" value="b-medial"> Medial /b/</label>
+<label><input type="checkbox" value="b-final"> Final /b/</label>
+
+<label><input type="checkbox" value="t-initial"> Initial /t/</label>
+<label><input type="checkbox" value="t-medial"> Medial /t/</label>
+<label><input type="checkbox" value="t-final"> Final /t/</label>
+
+<label><input type="checkbox" value="d-initial"> Initial /d/</label>
+<label><input type="checkbox" value="d-medial"> Medial /d/</label>
+<label><input type="checkbox" value="d-final"> Final /d/</label>
+
+<label><input type="checkbox" value="k-initial"> Initial /k/</label>
+<label><input type="checkbox" value="k-medial"> Medial /k/</label>
+<label><input type="checkbox" value="k-final"> Final /k/</label>
+
+<label><input type="checkbox" value="g-initial"> Initial /g/</label>
+<label><input type="checkbox" value="g-medial"> Medial /g/</label>
+<label><input type="checkbox" value="g-final"> Final /g/</label>
+
+<label><input type="checkbox" value="m-initial"> Initial /m/</label>
+<label><input type="checkbox" value="m-medial"> Medial /m/</label>
+<label><input type="checkbox" value="m-final"> Final /m/</label>
+
+<label><input type="checkbox" value="n-initial"> Initial /n/</label>
+<label><input type="checkbox" value="n-medial"> Medial /n/</label>
+<label><input type="checkbox" value="n-final"> Final /n/</label>
+
+<label><input type="checkbox" value="f-initial"> Initial /f/</label>
+<label><input type="checkbox" value="f-medial"> Medial /f/</label>
+<label><input type="checkbox" value="f-final"> Final /f/</label>
+
+<label><input type="checkbox" value="v-initial"> Initial /v/</label>
+<label><input type="checkbox" value="v-medial"> Medial /v/</label>
+<label><input type="checkbox" value="v-final"> Final /v/</label>
+
+<label><input type="checkbox" value="s-initial"> Initial /s/</label>
+<label><input type="checkbox" value="s-medial"> Medial /s/</label>
+<label><input type="checkbox" value="s-final"> Final /s/</label>
+
+<label><input type="checkbox" value="s-blends-2element"> 2-Element /s/ Blends</label>
+<label><input type="checkbox" value="s-blends-3element"> 3-Element /s/ Blends</label>
+
+<label><input type="checkbox" value="z-initial"> Initial /z/</label>
+<label><input type="checkbox" value="z-medial"> Medial /z/</label>
+<label><input type="checkbox" value="z-final"> Final /z/</label>
+
+<label><input type="checkbox" value="th-voiceless-initial"> Initial voiceless /th/</label>
+<label><input type="checkbox" value="th-voiceless-medial"> Medial voiceless /th/</label>
+<label><input type="checkbox" value="th-voiceless-final"> Final voiceless /th/</label>
+
+<label><input type="checkbox" value="th-voiced-initial"> Initial voiced /th/</label>
+<label><input type="checkbox" value="th-voiced-medial"> Medial voiced /th/</label>
+<label><input type="checkbox" value="th-voiced-final"> Final voiced /th/</label>
+
+<label><input type="checkbox" value="sh-initial"> Initial /sh/</label>
+<label><input type="checkbox" value="sh-medial"> Medial /sh/</label>
+<label><input type="checkbox" value="sh-final"> Final /sh/</label>
+
+<label><input type="checkbox" value="ch-initial"> Initial /ch/</label>
+<label><input type="checkbox" value="ch-medial"> Medial /ch/</label>
+<label><input type="checkbox" value="ch-final"> Final /ch/</label>
+
+<label><input type="checkbox" value="j-initial"> Initial /j/</label>
+<label><input type="checkbox" value="j-medial"> Medial /j/</label>
+<label><input type="checkbox" value="j-final"> Final /j/</label>
+
+<label><input type="checkbox" value="l-initial"> Initial /l/</label>
+<label><input type="checkbox" value="l-medial"> Medial /l/</label>
+<label><input type="checkbox" value="l-final"> Final /l/</label>
+
+<label><input type="checkbox" value="l-blends-2element"> 2-Element /l/ Blends</label>
+
+<label><input type="checkbox" value="l-blends-3element"> 3-Element /l/ Blends</label>
+
+<label><input type="checkbox" value="r-blends-2element"> 2-Element /r/ Blends</label>
+
+<label><input type="checkbox" value="r-initial"> Initial /r/</label>
+
+<label><input type="checkbox" value="air-initial"> Initial /air/</label>
+<label><input type="checkbox" value="air-medial"> Medial /air/</label>
+<label><input type="checkbox" value="air-final"> Final /air/</label>
+
+<label><input type="checkbox" value="ar-initial"> Initial /ar/</label>
+<label><input type="checkbox" value="ar-medial"> Medial /ar/</label>
+<label><input type="checkbox" value="ar-final"> Final /ar/</label>
+
+<label><input type="checkbox" value="ear-initial"> Initial /ear/</label>
+<label><input type="checkbox" value="ear-medial"> Medial /ear/</label>
+<label><input type="checkbox" value="ear-final"> Final /ear/</label>
+
+<label><input type="checkbox" value="ire-initial"> Initial /ire/</label>
+<label><input type="checkbox" value="ire-medial"> Medial /ire/</label>
+<label><input type="checkbox" value="ire-final"> Final /ire/</label>
+
+<label><input type="checkbox" value="or-initial"> Initial /or/</label>
+<label><input type="checkbox" value="or-medial"> Medial /or/</label>
+<label><input type="checkbox" value="or-final"> Final /or/</label>
+
+<label><input type="checkbox" value="er-initial"> Initial /er/</label>
+<label><input type="checkbox" value="er-medial"> Medial /er/</label>
+<label><input type="checkbox" value="er-final"> Final /er/</label>
+
+<label><input type="checkbox" value="multisyllabic-3"> 3-Syllable Words</label>
+<label><input type="checkbox" value="multisyllabic-4"> 4-Syllable Words</label>
+<label><input type="checkbox" value="multisyllabic-5"> 5-Syllable Words</label>
+
+</div>
+<br />
+
+<select id="levelSelect">
+  <option value="word">Single Words</option>
+  <option value="phrase">2–3 Word Phrases</option>
+  <option value="sentence">Sentences</option>
+</select>
+
+<button class="go-button" onclick="generateSentence()">GO!</button>
+<button class="reset-button" onclick="resetSounds()">START OVER</button>
+
+<div class="sentence" id="sentence">Press the button!</div>
+
+<div class="pictures" id="pictures"></div>
+<div class="practice-dots" id="practiceDots"></div>
+
+  <script>
+    // Replace these with your own words and picture file names.
+    // Pictures can be online image links OR local image files in the same folder.
+
+const soundPrompts = {
+ "p": "sound-prompts/p.png",
+  "b": "sound-prompts/b.png",
+  "t": "sound-prompts/t.png",
+  "d": "sound-prompts/d.png",
+  "k": "sound-prompts/k.png",
+  "g": "sound-prompts/g.png",
+  "m": "sound-prompts/m.png",
+  "n": "sound-prompts/n.png",
+  "f": "sound-prompts/f.png",
+  "v": "sound-prompts/v.png",
+  "s": "sound-prompts/s.png",
+"s-blends-2element": "sound-prompts/sblends2.png",
+"s-blends-3element": "sound-prompts/sblends3.png",
+  "z": "sound-prompts/z.png",
+"th-voiceless": "sound-prompts/th-voiceless.png",
+"th-voiced": "sound-prompts/th-voiced.png",
+  "sh": "sound-prompts/sh.png",
+  "ch": "sound-prompts/ch.png",
+  "j": "sound-prompts/j.png",
+  "l": "sound-prompts/l.png",
+  "r": "sound-prompts/r.png"
+};
+
+    const nouns = [
+      { word: "dog", image: "noun pictures/dog.jpg" },
+      { word: "cat", image: "noun pictures/cat.jpg" },
+      { word: "robot", image: "noun pictures/robot.jpg" },
+{ word: "house", image: "noun pictures/house.jpg" },
+{ word: "baby", image: "noun pictures/baby.jpg" },
+{ word: "school", image: "noun pictures/school.jpg" },
+{ word: "lion", image: "noun pictures/lion.jpg" },
+{ word: "pig", image: "noun pictures/pig.jpg" },
+{ word: "book", image: "noun pictures/book.jpg" },
+{ word: "apple", image: "noun pictures/apple.jpg" },
+{ word: "fish", image: "noun pictures/fish.jpg" },
+{ word: "beach", image: "noun pictures/beach.jpg" },
+{ word: "hat", image: "noun pictures/hat.jpg" },
+{ word: "bus", image: "noun pictures/bus.jpg" },
+{ word: "octopus", image: "noun pictures/octopus.jpg" },
+{ word: "spaceship", image: "noun pictures/spaceship.jpg" },
+
+    ];
+
+    const verbs = [
+      { word: "eats", image: "verb pictures/eats.jpg" },
+      { word: "looks", image: "verb pictures/looks.jpg" },
+      { word: "sleeps", image: "verb pictures/sleeps.jpg" },
+      { word: "hugs", image: "verb pictures/hugs.jpg" },
+ { word: "climbs", image: "verb pictures/climbs.jpg" },
+ { word: "plays", image: "verb pictures/plays.jpg" },
+ { word: "laughs", image: "verb pictures/laughs.jpg" },
+ { word: "opens", image: "verb pictures/opens.jpg" },
+ { word: "cooks", image: "verb pictures/cooks.jpg" },
+
+    ];
+
+    const targetWords = [
+{ word: "pig", sound: "p", position: "initial", image: "p-sound/word initial p/pig.png" },
+{ word: "pizza", sound: "p", position: "initial", image: "p-sound/word initial p/pizza.png" },
+{ word: "pencil", sound: "p", position: "initial", image: "p-sound/word initial p/pencil.png" },
+{ word: "penguin", sound: "p", position: "initial", image: "p-sound/word initial p/penguin.png" },
+{ word: "pumpkin", sound: "p", position: "initial", image: "p-sound/word initial p/pumpkin.png" },
+{ word: "pony", sound: "p", position: "initial", image: "p-sound/word initial p/pony.png" },
+{ word: "pickle", sound: "p", position: "initial", image: "p-sound/word initial p/pickle.png" },
+{ word: "pajamas", sound: "p", position: "initial", image: "p-sound/word initial p/pajamas.png" },
+
+{ word: "apple", sound: "p", position: "medial", image: "p-sound/word medial p/apple.png" },
+{ word: "puppy", sound: "p", position: "medial", image: "p-sound/word medial p/puppy.png" },
+{ word: "teapot", sound: "p", position: "medial", image: "p-sound/word medial p/teapot.png" },
+{ word: "hippo", sound: "p", position: "medial", image: "p-sound/word medial p/hippo.png" },
+{ word: "cupcake", sound: "p", position: "medial", image: "p-sound/word medial p/cupcake.png" },
+{ word: "backpack", sound: "p", position: "medial", image: "p-sound/word medial p/backpack.png" },
+{ word: "toothpaste", sound: "p", position: "medial", image: "p-sound/word medial p/toothpaste.png" },
+
+{ word: "cup", sound: "p", position: "final", image: "p-sound/word final p/cup.png" },
+{ word: "mop", sound: "p", position: "final", image: "p-sound/word final p/mop.png" },
+{ word: "map", sound: "p", position: "final", image: "p-sound/word final p/map.png" },
+{ word: "lollipop", sound: "p", position: "final", image: "p-sound/word final p/lollipop.png" },
+{ word: "stamp", sound: "p", position: "final", image: "p-sound/word final p/stamp.png" },
+{ word: "soup", sound: "p", position: "final", image: "p-sound/word final p/soup.png" },
+{ word: "lamp", sound: "p", position: "final", image: "p-sound/word final p/lamp.png" },
+{ word: "soap", sound: "p", position: "final", image: "p-sound/word final p/soap.png" },
+
+{ word: "boat", sound: "b", position: "initial", image: "b-sound/word initial b/boat.png" },
+{ word: "baby", sound: "b", position: "initial", image: "b-sound/word initial b/baby.png" },
+{ word: "balloon", sound: "b", position: "initial", image: "b-sound/word initial b/balloon.png" },
+{ word: "bed", sound: "b", position: "initial", image: "b-sound/word initial b/bed.png" },
+{ word: "ball", sound: "b", position: "initial", image: "b-sound/word initial b/ball.png" },
+{ word: "buddy", sound: "b", position: "initial", image: "b-sound/word initial b/buddy.png" },
+{ word: "bag", sound: "b", position: "initial", image: "b-sound/word initial b/bag.png" },
+{ word: "bath", sound: "b", position: "initial", image: "b-sound/word initial b/bath.png" },
+{ word: "bull", sound: "b", position: "initial", image: "b-sound/word initial b/bull.png" },
+{ word: "bat", sound: "b", position: "initial", image: "b-sound/word initial b/bat.png" },
+
+{ word: "cabin", sound: "b", position: "medial", image: "b-sound/word medial b/cabin.png" },
+{ word: "blackberry", sound: "b", position: "medial", image: "b-sound/word medial b/blackberry.png" },
+{ word: "goodbye", sound: "b", position: "medial", image: "b-sound/word medial b/goodbye.png" },
+{ word: "baseball", sound: "b", position: "medial", image: "b-sound/word medial b/baseball.png" },
+{ word: "blueberry", sound: "b", position: "medial", image: "b-sound/word medial b/blueberry.png" },
+{ word: "cobweb", sound: "b", position: "medial", image: "b-sound/word medial b/cobweb.png" },
+{ word: "cowboy", sound: "b", position: "medial", image: "b-sound/word medial b/cowboy.png" },
+{ word: "elbow", sound: "b", position: "medial", image: "b-sound/word medial b/elbow.png" },
+{ word: "mailbox", sound: "b", position: "medial", image: "b-sound/word medial b/mailbox.png" },
+{ word: "textbook", sound: "b", position: "medial", image: "b-sound/word medial b/textbook.png" },
+{ word: "keyboard", sound: "b", position: "medial", image: "b-sound/word medial b/keyboard.png" },
+
+{ word: "bib", sound: "b", position: "final", image: "b-sound/word final b/bib.png" },
+{ word: "crab", sound: "b", position: "final", image: "b-sound/word final b/crab.png" },
+{ word: "crib", sound: "b", position: "final", image: "b-sound/word final b/crib.png" },
+{ word: "cub", sound: "b", position: "final", image: "b-sound/word final b/cub.png" },
+{ word: "doorknob", sound: "b", position: "final", image: "b-sound/word final b/doorknob.png" },
+{ word: "earlobe", sound: "b", position: "final", image: "b-sound/word final b/earlobe.png" },
+{ word: "globe", sound: "b", position: "final", image: "b-sound/word final b/globe.png" },
+{ word: "cube", sound: "b", position: "final", image: "b-sound/word final b/cube.png" },
+{ word: "robe", sound: "b", position: "final", image: "b-sound/word final b/robe.png" },
+{ word: "sub", sound: "b", position: "final", image: "b-sound/word final b/sub.png" },
+{ word: "tube", sound: "b", position: "final", image: "b-sound/word final b/tube.png" },
+
+{ word: "table", sound: "t", position: "initial", image: "t-sound/word initial t/table.png" },
+{ word: "taco", sound: "t", position: "initial", image: "t-sound/word initial t/taco.png" },
+{ word: "talk", sound: "t", position: "initial", image: "t-sound/word initial t/talk.png" },
+{ word: "taste", sound: "t", position: "initial", image: "t-sound/word initial t/taste.png" },
+{ word: "tea", sound: "t", position: "initial", image: "t-sound/word initial t/tea.png" },
+{ word: "team", sound: "t", position: "initial", image: "t-sound/word initial t/team.png" },
+{ word: "teeth", sound: "t", position: "initial", image: "t-sound/word initial t/teeth.png" },
+{ word: "television", sound: "t", position: "initial", image: "t-sound/word initial t/television.png" },
+{ word: "tennis", sound: "t", position: "initial", image: "t-sound/word initial t/tennis.png" },
+{ word: "tent", sound: "t", position: "initial", image: "t-sound/word initial t/tent.png" },
+{ word: "ticket", sound: "t", position: "initial", image: "t-sound/word initial t/ticket.png" },
+{ word: "tie", sound: "t", position: "initial", image: "t-sound/word initial t/tie.png" },
+{ word: "tiger", sound: "t", position: "initial", image: "t-sound/word initial t/tiger.png" },
+{ word: "time", sound: "t", position: "initial", image: "t-sound/word initial t/time.png" },
+{ word: "tiny", sound: "t", position: "initial", image: "t-sound/word initial t/tiny.png" },
+
+{ word: "cheetah", sound: "t", position: "medial", image: "t-sound/word medial t/cheetah.png" },
+{ word: "doctor", sound: "t", position: "medial", image: "t-sound/word medial t/doctor.png" },
+{ word: "eighteen", sound: "t", position: "medial", image: "t-sound/word medial t/eighteen.png" },
+{ word: "enter", sound: "t", position: "medial", image: "t-sound/word medial t/enter.png" },
+{ word: "fifteen", sound: "t", position: "medial", image: "t-sound/word medial t/fifteen.png" },
+{ word: "guitar", sound: "t", position: "medial", image: "t-sound/word medial t/guitar.png" },
+{ word: "hospital", sound: "t", position: "medial", image: "t-sound/word medial t/hospital.png" },
+{ word: "hotel", sound: "t", position: "medial", image: "t-sound/word medial t/hotel.png" },
+{ word: "mitten", sound: "t", position: "medial", image: "t-sound/word medial t/mitten.png" },
+{ word: "potato", sound: "t", position: "medial", image: "t-sound/word medial t/potato.png" },
+{ word: "vegetable", sound: "t", position: "medial", image: "t-sound/word medial t/vegetable.png" },
+
+{ word: "alphabet", sound: "t", position: "final", image: "t-sound/word final t/alphabet.png" },
+{ word: "ant", sound: "t", position: "final", image: "t-sound/word final t/ant.png" },
+{ word: "basket", sound: "t", position: "final", image: "t-sound/word final t/basket.png" },
+{ word: "astronaut", sound: "t", position: "final", image: "t-sound/word final t/astronaut.png" },
+{ word: "boot", sound: "t", position: "final", image: "t-sound/word final t/boot.png" },
+{ word: "chocolate", sound: "t", position: "final", image: "t-sound/word final t/chocolate.png" },
+{ word: "calculate", sound: "t", position: "final", image: "t-sound/word final t/calculate.png" },
+{ word: "coconut", sound: "t", position: "final", image: "t-sound/word final t/coconut.png" },
+{ word: "dot", sound: "t", position: "final", image: "t-sound/word final t/dot.png" },
+{ word: "feet", sound: "t", position: "final", image: "t-sound/word final t/feet.png" },
+{ word: "flashlight", sound: "t", position: "final", image: "t-sound/word final t/flashlight.png" },
+{ word: "goat", sound: "t", position: "final", image: "t-sound/word final t/goat.png" },
+{ word: "jacket", sound: "t", position: "final", image: "t-sound/word final t/jacket.png" },
+{ word: "kite", sound: "t", position: "final", image: "t-sound/word final t/kite.png" },
+{ word: "mint", sound: "t", position: "final", image: "t-sound/word final t/mint.png" },
+{ word: "net", sound: "t", position: "final", image: "t-sound/word final t/net.png" },
+{ word: "peanut", sound: "t", position: "final", image: "t-sound/word final t/peanut.png" },
+{ word: "boat", sound: "t", position: "final", image: "t-sound/word final t/boat.png" },
+{ word: "skate", sound: "t", position: "final", image: "t-sound/word final t/skate.png" },
+{ word: "violet", sound: "t", position: "final", image: "t-sound/word final t/violet.png" },
+{ word: "wet", sound: "t", position: "final", image: "t-sound/word final t/wet.png" },
+
+{ word: "dad", sound: "d", position: "initial", image: "d-sound/word initial d/dad.png" },
+{ word: "daisy", sound: "d", position: "initial", image: "d-sound/word initial d/daisy.png" },
+{ word: "day", sound: "d", position: "initial", image: "d-sound/word initial d/day.png" },
+{ word: "dance", sound: "d", position: "initial", image: "d-sound/word initial d/dance.png" },
+{ word: "denim", sound: "d", position: "initial", image: "d-sound/word initial d/denim.png" },
+{ word: "dentist", sound: "d", position: "initial", image: "d-sound/word initial d/dentist.png" },
+{ word: "desert", sound: "d", position: "initial", image: "d-sound/word initial d/desert.png" },
+{ word: "dessert", sound: "d", position: "initial", image: "d-sound/word initial d/dessert.png" },
+{ word: "dice", sound: "d", position: "initial", image: "d-sound/word initial d/dice.png" },
+{ word: "dog", sound: "d", position: "initial", image: "d-sound/word initial d/dog.png" },
+{ word: "doll", sound: "d", position: "initial", image: "d-sound/word initial d/doll.png" },
+{ word: "doughnut", sound: "d", position: "initial", image: "d-sound/word initial d/doughnut.png" },
+{ word: "dove", sound: "d", position: "initial", image: "d-sound/word initial d/dove.png" },
+{ word: "duck", sound: "d", position: "initial", image: "d-sound/word initial d/duck.png" },
+
+{ word: "birthday", sound: "d", position: "medial", image: "d-sound/word medial d/birthday.png" },
+{ word: "avocado", sound: "d", position: "medial", image: "d-sound/word medial d/avocado.png" },
+{ word: "window", sound: "d", position: "medial", image: "d-sound/word medial d/window.png" },
+{ word: "shadow", sound: "d", position: "medial", image: "d-sound/word medial d/shadow.png" },
+{ word: "panda", sound: "d", position: "medial", image: "d-sound/word medial d/panda.png" },
+{ word: "saddle", sound: "d", position: "medial", image: "d-sound/word medial d/saddle.png" },
+{ word: "sandbox", sound: "d", position: "medial", image: "d-sound/word medial d/sandbox.png" },
+{ word: "pudding", sound: "d", position: "medial", image: "d-sound/word medial d/pudding.png" },
+{ word: "sandal", sound: "d", position: "medial", image: "d-sound/word medial d/sandal.png" },
+{ word: "candy", sound: "d", position: "medial", image: "d-sound/word medial d/candy.png" },
+{ word: "study", sound: "d", position: "medial", image: "d-sound/word medial d/study.png" },
+{ word: "powder", sound: "d", position: "medial", image: "d-sound/word medial d/powder.png" },
+{ word: "muddy", sound: "d", position: "medial", image: "d-sound/word medial d/muddy.png" },
+
+{ word: "bed", sound: "d", position: "final", image: "d-sound/word final d/bed.png" },
+{ word: "band", sound: "d", position: "final", image: "d-sound/word final d/band.png" },
+{ word: "food", sound: "d", position: "final", image: "d-sound/word final d/food.png" },
+{ word: "hand", sound: "d", position: "final", image: "d-sound/word final d/hand.png" },
+{ word: "mud", sound: "d", position: "final", image: "d-sound/word final d/mud.png" },
+{ word: "bad", sound: "d", position: "final", image: "d-sound/word final d/bad.png" },
+{ word: "sand", sound: "d", position: "final", image: "d-sound/word final d/sand.png" },
+{ word: "bread", sound: "d", position: "final", image: "d-sound/word final d/bread.png" },
+{ word: "dad", sound: "d", position: "final", image: "d-sound/word final d/dad.png" },
+{ word: "kid", sound: "d", position: "final", image: "d-sound/word final d/kid.png" },
+{ word: "mad", sound: "d", position: "final", image: "d-sound/word final d/mad.png" },
+{ word: "sad", sound: "d", position: "final", image: "d-sound/word final d/sad.png" },
+{ word: "red", sound: "d", position: "final", image: "d-sound/word final d/red.png" },
+{ word: "stand", sound: "d", position: "final", image: "d-sound/word final d/stand.png" },
+{ word: "lid", sound: "d", position: "final", image: "d-sound/word final d/lid.png" },
+
+{ word: "cactus", sound: "k", position: "initial", image: "k-sound/word initial k/cactus.png" },
+{ word: "camp", sound: "k", position: "initial", image: "k-sound/word initial k/camp.png" },
+{ word: "candy", sound: "k", position: "initial", image: "k-sound/word initial k/candy.png" },
+{ word: "cane", sound: "k", position: "initial", image: "k-sound/word initial k/cane.png" },
+{ word: "car", sound: "k", position: "initial", image: "k-sound/word initial k/car.png" },
+{ word: "carrot", sound: "k", position: "initial", image: "k-sound/word initial k/carrot.png" },
+{ word: "cake", sound: "k", position: "initial", image: "k-sound/word initial k/cake.png" },
+{ word: "cabin", sound: "k", position: "initial", image: "k-sound/word initial k/cabin.png" },
+{ word: "cabbage", sound: "k", position: "initial", image: "k-sound/word initial k/cabbage.png" },
+
+{ word: "apricot", sound: "k", position: "medial", image: "k-sound/word medial k/apricot.png" },
+{ word: "bicycle", sound: "k", position: "medial", image: "k-sound/word medial k/bicycle.png" },
+{ word: "chicken", sound: "k", position: "medial", image: "k-sound/word medial k/chicken.png" },
+{ word: "coconut", sound: "k", position: "medial", image: "k-sound/word medial k/coconut.png" },
+{ word: "taco", sound: "k", position: "medial", image: "k-sound/word medial k/taco.png" },
+{ word: "raccoon", sound: "k", position: "medial", image: "k-sound/word medial k/raccoon.png" },
+{ word: "pumpkin", sound: "k", position: "medial", image: "k-sound/word medial k/pumpkin.png" },
+{ word: "cocoa", sound: "k", position: "medial", image: "k-sound/word medial k/cocoa.png" },
+{ word: "bucket", sound: "k", position: "medial", image: "k-sound/word medial k/bucket.png" },
+{ word: "rocket", sound: "k", position: "medial", image: "k-sound/word medial k/rocket.png" },
+{ word: "cookie", sound: "k", position: "medial", image: "k-sound/word medial k/cookie.png" },
+{ word: "gecko", sound: "k", position: "medial", image: "k-sound/word medial k/gecko.png" },
+{ word: "okay", sound: "k", position: "medial", image: "k-sound/word medial k/okay.png" },
+
+{ word: "cake", sound: "k", position: "final", image: "k-sound/word final k/cake.png" },
+{ word: "chick", sound: "k", position: "final", image: "k-sound/word final k/chick.png" },
+{ word: "cook", sound: "k", position: "final", image: "k-sound/word final k/cook.png" },
+{ word: "cupcake", sound: "k", position: "final", image: "k-sound/word final k/cupcake.png" },
+{ word: "duck", sound: "k", position: "final", image: "k-sound/word final k/duck.png" },
+{ word: "bike", sound: "k", position: "final", image: "k-sound/word final k/bike.png" },
+{ word: "lock", sound: "k", position: "final", image: "k-sound/word final k/lock.png" },
+{ word: "rake", sound: "k", position: "final", image: "k-sound/word final k/rake.png" },
+{ word: "rock", sound: "k", position: "final", image: "k-sound/word final k/rock.png" },
+{ word: "music", sound: "k", position: "final", image: "k-sound/word final k/music.png" },
+{ word: "walk", sound: "k", position: "final", image: "k-sound/word final k/walk.png" },
+{ word: "shake", sound: "k", position: "final", image: "k-sound/word final k/shake.png" },
+{ word: "stick", sound: "k", position: "final", image: "k-sound/word final k/stick.png" },
+{ word: "hook", sound: "k", position: "final", image: "k-sound/word final k/hook.png" },
+{ word: "hike", sound: "k", position: "final", image: "k-sound/word final k/hike.png" },
+{ word: "sick", sound: "k", position: "final", image: "k-sound/word final k/sick.png" },
+
+{ word: "goat", sound: "g", position: "initial", image: "g-sound/word initial g/goat.png" },
+{ word: "girl", sound: "g", position: "initial", image: "g-sound/word initial g/girl.png" },
+{ word: "gecko", sound: "g", position: "initial", image: "g-sound/word initial g/gecko.png" },
+{ word: "gorilla", sound: "g", position: "initial", image: "g-sound/word initial g/gorilla.png" },
+{ word: "gate", sound: "g", position: "initial", image: "g-sound/word initial g/gate.png" },
+{ word: "golf", sound: "g", position: "initial", image: "g-sound/word initial g/golf.png" },
+{ word: "game", sound: "g", position: "initial", image: "g-sound/word initial g/game.png" },
+{ word: "ghost", sound: "g", position: "initial", image: "g-sound/word initial g/ghost.png" },
+{ word: "good", sound: "g", position: "initial", image: "g-sound/word initial g/good.png" },
+{ word: "gum", sound: "g", position: "initial", image: "g-sound/word initial g/gum.png" },
+{ word: "go", sound: "g", position: "initial", image: "g-sound/word initial g/go.png" },
+{ word: "guitar", sound: "g", position: "initial", image: "g-sound/word initial g/guitar.png" },
+{ word: "goal", sound: "g", position: "initial", image: "g-sound/word initial g/goal.png" },
+{ word: "glue", sound: "g", position: "initial", image: "g-sound/word initial g/glue.png" },
+{ word: "garbage", sound: "g", position: "initial", image: "g-sound/word initial g/garbage.png" },
+{ word: "gooey", sound: "g", position: "initial", image: "g-sound/word initial g/gooey.png" },
+{ word: "grapes", sound: "g", position: "initial", image: "g-sound/word initial g/grapes.png" },
+{ word: "green", sound: "g", position: "initial", image: "g-sound/word initial g/green.png" }, 
+
+{ word: "dragon", sound: "g", position: "medial", image: "g-sound/word medial g/dragon.png" },
+{ word: "luggage", sound: "g", position: "medial", image: "g-sound/word medial g/luggage.png" },
+{ word: "cougar", sound: "g", position: "medial", image: "g-sound/word medial g/cougar.png" },
+{ word: "again", sound: "g", position: "medial", image: "g-sound/word medial g/again.png" },
+{ word: "wagon", sound: "g", position: "medial", image: "g-sound/word medial g/wagon.png" },
+{ word: "eagle", sound: "g", position: "medial", image: "g-sound/word medial g/eagle.png" },
+{ word: "tugboat", sound: "g", position: "medial", image: "g-sound/word medial g/tugboat.png" },
+{ word: "sugar", sound: "g", position: "medial", image: "g-sound/word medial g/sugar.png" },
+{ word: "dugout", sound: "g", position: "medial", image: "g-sound/word medial g/dugout.png" },
+{ word: "foggy", sound: "g", position: "medial", image: "g-sound/word medial g/foggy.png" },
+{ word: "magnet", sound: "g", position: "medial", image: "g-sound/word medial g/magnet.png" },
+{ word: "alligator", sound: "g", position: "medial", image: "g-sound/word medial g/alligator.png" },
+{ word: "jogging", sound: "g", position: "medial", image: "g-sound/word medial g/jogging.png" },
+{ word: "yoga", sound: "g", position: "medial", image: "g-sound/word medial g/yoga.png" },
+{ word: "juggle", sound: "g", position: "medial", image: "g-sound/word medial g/juggle.png" },
+{ word: "seagull", sound: "g", position: "medial", image: "g-sound/word medial g/seagull.png" },
+{ word: "doggy", sound: "g", position: "medial", image: "g-sound/word medial g/doggy.png" },
+
+{ word: "twig", sound: "g", position: "final", image: "g-sound/word final g/twig.png" },
+{ word: "dog", sound: "g", position: "final", image: "g-sound/word final g/dog.png" },
+{ word: "leg", sound: "g", position: "final", image: "g-sound/word final g/leg.png" },
+{ word: "bag", sound: "g", position: "final", image: "g-sound/word final g/bag.png" },
+{ word: "mug", sound: "g", position: "final", image: "g-sound/word final g/mug.png" },
+{ word: "hug", sound: "g", position: "final", image: "g-sound/word final g/hug.png" },
+{ word: "rag", sound: "g", position: "final", image: "g-sound/word final g/rag.png" },
+{ word: "pig", sound: "g", position: "final", image: "g-sound/word final g/pig.png" },
+{ word: "frog", sound: "g", position: "final", image: "g-sound/word final g/frog.png" },
+{ word: "fog", sound: "g", position: "final", image: "g-sound/word final g/fog.png" },
+{ word: "slug", sound: "g", position: "final", image: "g-sound/word final g/slug.png" },
+{ word: "dig", sound: "g", position: "final", image: "g-sound/word final g/dig.png" },
+{ word: "rug", sound: "g", position: "final", image: "g-sound/word final g/rug.png" },
+{ word: "wag", sound: "g", position: "final", image: "g-sound/word final g/wag.png" },
+{ word: "wig", sound: "g", position: "final", image: "g-sound/word final g/wig.png" },
+{ word: "egg", sound: "g", position: "final", image: "g-sound/word final g/egg.png" },
+
+{ word: "mice", sound: "m", position: "initial", image: "m-sound/word initial m/mice.png" },
+{ word: "moose", sound: "m", position: "initial", image: "m-sound/word initial m/moose.png" },
+{ word: "mouth", sound: "m", position: "initial", image: "m-sound/word initial m/mouth.png" },
+{ word: "mail", sound: "m", position: "initial", image: "m-sound/word initial m/mail.png" },
+{ word: "me", sound: "m", position: "initial", image: "m-sound/word initial m/me.png" },
+{ word: "mow", sound: "m", position: "initial", image: "m-sound/word initial m/mow.png" },
+{ word: "mop", sound: "m", position: "initial", image: "m-sound/word initial m/mop.png" },
+{ word: "mad", sound: "m", position: "initial", image: "m-sound/word initial m/mad.png" },
+{ word: "milk", sound: "m", position: "initial", image: "m-sound/word initial m/milk.png" },
+{ word: "moo", sound: "m", position: "initial", image: "m-sound/word initial m/moo.png" },
+{ word: "mom", sound: "m", position: "initial", image: "m-sound/word initial m/mom.png" },
+{ word: "moon", sound: "m", position: "initial", image: "m-sound/word initial m/moon.png" },
+{ word: "melt", sound: "m", position: "initial", image: "m-sound/word initial m/melt.png" },
+{ word: "monkey", sound: "m", position: "initial", image: "m-sound/word initial m/monkey.png" },
+{ word: "melon", sound: "m", position: "initial", image: "m-sound/word initial m/melon.png" },
+{ word: "map", sound: "m", position: "initial", image: "m-sound/word initial m/map.png" },
+{ word: "muffin", sound: "m", position: "initial", image: "m-sound/word initial m/muffin.png" },
+
+{ word: "mommy", sound: "m", position: "medial", image: "m-sound/word medial m/mommy.png" },
+{ word: "hammer", sound: "m", position: "medial", image: "m-sound/word medial m/hammer.png" },
+{ word: "mummy", sound: "m", position: "medial", image: "m-sound/word medial m/mummy.png" },
+{ word: "lemon", sound: "m", position: "medial", image: "m-sound/word medial m/lemon.png" },
+{ word: "camel", sound: "m", position: "medial", image: "m-sound/word medial m/camel.png" },
+{ word: "woman", sound: "m", position: "medial", image: "m-sound/word medial m/woman.png" },
+{ word: "tomato", sound: "m", position: "medial", image: "m-sound/word medial m/tomato.png" },
+{ word: "hammock", sound: "m", position: "medial", image: "m-sound/word medial m/hammock.png" },
+{ word: "gummies", sound: "m", position: "medial", image: "m-sound/word medial m/gummies.png" },
+{ word: "fireman", sound: "m", position: "medial", image: "m-sound/word medial m/fireman.png" },
+{ word: "pumpkin", sound: "m", position: "medial", image: "m-sound/word medial m/pumpkin.png" },
+{ word: "hamper", sound: "m", position: "medial", image: "m-sound/word medial m/hamper.png" },
+{ word: "hamster", sound: "m", position: "medial", image: "m-sound/word medial m/hamster.png" },
+{ word: "compass", sound: "m", position: "medial", image: "m-sound/word medial m/compass.png" },
+{ word: "hamburger", sound: "m", position: "medial", image: "m-sound/word medial m/hamburger.png" },
+{ word: "watermelon", sound: "m", position: "medial", image: "m-sound/word medial m/watermelon.png" },
+{ word: "jump", sound: "m", position: "medial", image: "m-sound/word medial m/jump.png" },
+{ word: "shampoo", sound: "m", position: "medial", image: "m-sound/word medial m/shampoo.png" },
+{ word: "llama", sound: "m", position: "medial", image: "m-sound/word medial m/llama.png" },
+
+{ word: "hum", sound: "m", position: "final", image: "m-sound/word final m/hum.png" },
+{ word: "gum", sound: "m", position: "final", image: "m-sound/word final m/gum.png" },
+{ word: "home", sound: "m", position: "final", image: "m-sound/word final m/home.png" },
+{ word: "game", sound: "m", position: "final", image: "m-sound/word final m/game.png" },
+{ word: "name", sound: "m", position: "final", image: "m-sound/word final m/name.png" },
+{ word: "team", sound: "m", position: "final", image: "m-sound/word final m/team.png" },
+{ word: "time", sound: "m", position: "final", image: "m-sound/word final m/time.png" },
+{ word: "dime", sound: "m", position: "final", image: "m-sound/word final m/dime.png" },
+{ word: "beam", sound: "m", position: "final", image: "m-sound/word final m/beam.png" },
+{ word: "gnome", sound: "m", position: "final", image: "m-sound/word final m/gnome.png" },
+{ word: "dome", sound: "m", position: "final", image: "m-sound/word final m/dome.png" },
+{ word: "thumb", sound: "m", position: "final", image: "m-sound/word final m/thumb.png" },
+{ word: "plum", sound: "m", position: "final", image: "m-sound/word final m/plum.png" },
+
+{ word: "nose", sound: "n", position: "initial", image: "n-sound/word initial n/nose.png" },
+{ word: "nail", sound: "n", position: "initial", image: "n-sound/word initial n/nail.png" },
+{ word: "knee", sound: "n", position: "initial", image: "n-sound/word initial n/knee.png" },
+{ word: "napkin", sound: "n", position: "initial", image: "n-sound/word initial n/napkin.png" },
+{ word: "net", sound: "n", position: "initial", image: "n-sound/word initial n/net.png" },
+{ word: "knit", sound: "n", position: "initial", image: "n-sound/word initial n/knit.png" },
+{ word: "neigh", sound: "n", position: "initial", image: "n-sound/word initial n/neigh.png" },
+{ word: "news", sound: "n", position: "initial", image: "n-sound/word initial n/news.png" },
+{ word: "necklace", sound: "n", position: "initial", image: "n-sound/word initial n/necklace.png" },
+{ word: "nest", sound: "n", position: "initial", image: "n-sound/word initial n/nest.png" },
+
+{ word: "money", sound: "n", position: "medial", image: "n-sound/word medial n/money.png" },
+{ word: "sunny", sound: "n", position: "medial", image: "n-sound/word medial n/sunny.png" },
+{ word: "penny", sound: "n", position: "medial", image: "n-sound/word medial n/penny.png" },
+{ word: "dino", sound: "n", position: "medial", image: "n-sound/word medial n/dino.png" },
+{ word: "canoe", sound: "n", position: "medial", image: "n-sound/word medial n/canoe.png" },
+{ word: "donut", sound: "n", position: "medial", image: "n-sound/word medial n/donut.png" },
+{ word: "funny", sound: "n", position: "medial", image: "n-sound/word medial n/funny.png" },
+{ word: "rhino", sound: "n", position: "medial", image: "n-sound/word medial n/rhino.png" },
+{ word: "peanut", sound: "n", position: "medial", image: "n-sound/word medial n/peanut.png" },
+{ word: "bunny", sound: "n", position: "medial", image: "n-sound/word medial n/bunny.png" },
+{ word: "pony", sound: "n", position: "medial", image: "n-sound/word medial n/pony.png" },
+{ word: "rainbow", sound: "n", position: "medial", image: "n-sound/word medial n/rainbow.png" },
+{ word: "planet", sound: "n", position: "medial", image: "n-sound/word medial n/planet.png" },
+
+{ word: "man", sound: "n", position: "final", image: "n-sound/word final n/man.png" },
+{ word: "coin", sound: "n", position: "final", image: "n-sound/word final n/coin.png" },
+{ word: "cane", sound: "n", position: "final", image: "n-sound/word final n/cane.png" },
+{ word: "fan", sound: "n", position: "final", image: "n-sound/word final n/fan.png" },
+{ word: "sun", sound: "n", position: "final", image: "n-sound/word final n/sun.png" },
+{ word: "can", sound: "n", position: "final", image: "n-sound/word final n/can.png" },
+{ word: "plane", sound: "n", position: "final", image: "n-sound/word final n/plane.png" },
+{ word: "moon", sound: "n", position: "final", image: "n-sound/word final n/moon.png" },
+
+{ word: "face", sound: "f", position: "initial", image: "f-sound/word initial f/face.png" },
+{ word: "fence", sound: "f", position: "initial", image: "f-sound/word initial f/fence.png" },
+{ word: "feet", sound: "f", position: "initial", image: "f-sound/word initial f/feet.png" },
+{ word: "phone", sound: "f", position: "initial", image: "f-sound/word initial f/phone.png" },
+{ word: "five", sound: "f", position: "initial", image: "f-sound/word initial f/five.png" },
+{ word: "fish", sound: "f", position: "initial", image: "f-sound/word initial f/fish.png" },
+{ word: "feather", sound: "f", position: "initial", image: "f-sound/word initial f/feather.png" },
+{ word: "fist", sound: "f", position: "initial", image: "f-sound/word initial f/fist.png" },
+{ word: "fox", sound: "f", position: "initial", image: "f-sound/word initial f/fox.png" },
+{ word: "fan", sound: "f", position: "initial", image: "f-sound/word initial f/fan.png" },
+{ word: "fiddle", sound: "f", position: "initial", image: "f-sound/word initial f/fiddle.png" },
+{ word: "football", sound: "f", position: "initial", image: "f-sound/word initial f/football.png" },
+{ word: "faucet", sound: "f", position: "initial", image: "f-sound/word initial f/faucet.png" },
+
+{ word: "goofy", sound: "f", position: "medial", image: "f-sound/word medial f/goofy.png" },
+{ word: "coffee", sound: "f", position: "medial", image: "f-sound/word medial f/coffee.png" },
+{ word: "breakfast", sound: "f", position: "medial", image: "f-sound/word medial f/breakfast.png" },
+{ word: "muffin", sound: "f", position: "medial", image: "f-sound/word medial f/muffin.png" },
+{ word: "megaphone", sound: "f", position: "medial", image: "f-sound/word medial f/megaphone.png" },
+{ word: "goldfish", sound: "f", position: "medial", image: "f-sound/word medial f/goldfish.png" },
+{ word: "puffin", sound: "f", position: "medial", image: "f-sound/word medial f/puffin.png" },
+{ word: "sofa", sound: "f", position: "medial", image: "f-sound/word medial f/sofa.png" },
+{ word: "fluffy", sound: "f", position: "medial", image: "f-sound/word medial f/fluffy.png" },
+{ word: "dolphin", sound: "f", position: "medial", image: "f-sound/word medial f/dolphin.png" },
+{ word: "buffalo", sound: "f", position: "medial", image: "f-sound/word medial f/buffalo.png" },
+{ word: "waffle", sound: "f", position: "medial", image: "f-sound/word medial f/waffle.png" },
+{ word: "laughing", sound: "f", position: "medial", image: "f-sound/word medial f/laughing.png" },
+{ word: "fifty", sound: "f", position: "medial", image: "f-sound/word medial f/fifty.png" },
+{ word: "surfboard", sound: "f", position: "medial", image: "f-sound/word medial f/surfboard.png" },
+{ word: "elephant", sound: "f", position: "medial", image: "f-sound/word medial f/elephant.png" },
+
+{ word: "leaf", sound: "f", position: "final", image: "f-sound/word final f/leaf.png" },
+{ word: "roof", sound: "f", position: "final", image: "f-sound/word final f/roof.png" },
+{ word: "scarf", sound: "f", position: "final", image: "f-sound/word final f/scarf.png" },
+{ word: "giraffe", sound: "f", position: "final", image: "f-sound/word final f/giraffe.png" },
+{ word: "wolf", sound: "f", position: "final", image: "f-sound/word final f/wolf.png" },
+{ word: "cough", sound: "f", position: "final", image: "f-sound/word final f/cough.png" },
+{ word: "elf", sound: "f", position: "final", image: "f-sound/word final f/elf.png" },
+{ word: "chef", sound: "f", position: "final", image: "f-sound/word final f/chef.png" },
+{ word: "cliff", sound: "f", position: "final", image: "f-sound/word final f/cliff.png" },
+{ word: "hoof", sound: "f", position: "final", image: "f-sound/word final f/hoof.png" },
+{ word: "tough", sound: "f", position: "final", image: "f-sound/word final f/tough.png" },
+{ word: "shelf", sound: "f", position: "final", image: "f-sound/word final f/shelf.png" },
+
+{ word: "van", sound: "v", position: "initial", image: "v-sound/word initial v/van.png" },
+{ word: "vanilla", sound: "v", position: "initial", image: "v-sound/word initial v/vanilla.png" },
+{ word: "video", sound: "v", position: "initial", image: "v-sound/word initial v/video.png" },
+{ word: "vote", sound: "v", position: "initial", image: "v-sound/word initial v/vote.png" },
+{ word: "violin", sound: "v", position: "initial", image: "v-sound/word initial v/violin.png" },
+{ word: "veggies", sound: "v", position: "initial", image: "v-sound/word initial v/veggies.png" },
+{ word: "vehicle", sound: "v", position: "initial", image: "v-sound/word initial v/vehicle.png" },
+{ word: "vet", sound: "v", position: "initial", image: "v-sound/word initial v/vet.png" },
+{ word: "volcano", sound: "v", position: "initial", image: "v-sound/word initial v/volcano.png" },
+{ word: "vest", sound: "v", position: "initial", image: "v-sound/word initial v/vest.png" },
+{ word: "vine", sound: "v", position: "initial", image: "v-sound/word initial v/vine.png" },
+{ word: "volleyball", sound: "v", position: "initial", image: "v-sound/word initial v/volleyball.png" },
+{ word: "venus", sound: "v", position: "initial", image: "v-sound/word initial v/venus.png" },
+
+{ word: "heavy", sound: "v", position: "medial", image: "v-sound/word medial v/heavy.png" },
+{ word: "avocado", sound: "v", position: "medial", image: "v-sound/word medial v/avocado.png" },
+{ word: "movies", sound: "v", position: "medial", image: "v-sound/word medial v/movies.png" },
+{ word: "beaver", sound: "v", position: "medial", image: "v-sound/word medial v/beaver.png" },
+{ word: "fever", sound: "v", position: "medial", image: "v-sound/word medial v/fever.png" },
+{ word: "gloves", sound: "v", position: "medial", image: "v-sound/word medial v/gloves.png" },
+{ word: "shovel", sound: "v", position: "medial", image: "v-sound/word medial v/shovel.png" },
+{ word: "oval", sound: "v", position: "medial", image: "v-sound/word medial v/oval.png" },
+{ word: "river", sound: "v", position: "medial", image: "v-sound/word medial v/river.png" },
+{ word: "lava", sound: "v", position: "medial", image: "v-sound/word medial v/lava.png" },
+{ word: "leaves", sound: "v", position: "medial", image: "v-sound/word medial v/leaves.png" },
+{ word: "diver", sound: "v", position: "medial", image: "v-sound/word medial v/diver.png" },
+{ word: "shiver", sound: "v", position: "medial", image: "v-sound/word medial v/shiver.png" },
+{ word: "invite", sound: "v", position: "medial", image: "v-sound/word medial v/invite.png" },
+{ word: "division", sound: "v", position: "medial", image: "v-sound/word medial v/division.png" },
+{ word: "oven", sound: "v", position: "medial", image: "v-sound/word medial v/oven.png" },
+
+{ word: "hive", sound: "v", position: "final", image: "v-sound/word final v/hive.png" },
+{ word: "stove", sound: "v", position: "final", image: "v-sound/word final v/stove.png" },
+{ word: "sleeve", sound: "v", position: "final", image: "v-sound/word final v/sleeve.png" },
+{ word: "drive", sound: "v", position: "final", image: "v-sound/word final v/drive.png" },
+{ word: "wave", sound: "v", position: "final", image: "v-sound/word final v/wave.png" },
+{ word: "cave", sound: "v", position: "final", image: "v-sound/word final v/cave.png" },
+{ word: "give", sound: "v", position: "final", image: "v-sound/word final v/give.png" },
+{ word: "leave", sound: "v", position: "final", image: "v-sound/word final v/leave.png" },
+{ word: "glove", sound: "v", position: "final", image: "v-sound/word final v/glove.png" },
+{ word: "five", sound: "v", position: "final", image: "v-sound/word final v/five.png" },
+{ word: "dove", sound: "v", position: "final", image: "v-sound/word final v/dove.png" },
+{ word: "brave", sound: "v", position: "final", image: "v-sound/word final v/brave.png" },
+{ word: "shave", sound: "v", position: "final", image: "v-sound/word final v/shave.png" },
+{ word: "olive", sound: "v", position: "final", image: "v-sound/word final v/olive.png" },
+
+{ word: "sad", sound: "s", position: "initial", image: "s-sound/word initial s/sad1.png" },
+{ word: "saw", sound: "s", position: "initial", image: "s-sound/word initial s/saw.png" },
+{ word: "seed", sound: "s", position: "initial", image: "s-sound/word initial s/seed.png" },
+{ word: "sip", sound: "s", position: "initial", image: "s-sound/word initial s/sip.png" },
+{ word: "sit", sound: "s", position: "initial", image: "s-sound/word initial s/sit.png" },
+{ word: "soup", sound: "s", position: "initial", image: "s-sound/word initial s/soup.png" },
+{ word: "sub", sound: "s", position: "initial", image: "s-sound/word initial s/sub.png" },
+{ word: "suit", sound: "s", position: "initial", image: "s-sound/word initial s/suit.png" },
+{ word: "sun", sound: "s", position: "initial", image: "s-sound/word initial s/sun.png" },
+{ word: "sew", sound: "s", position: "initial", image: "s-sound/word initial s/sew.png" },
+{ word: "sick", sound: "s", position: "initial", image: "s-sound/word initial s/sick.png" },
+{ word: "soap", sound: "s", position: "initial", image: "s-sound/word initial s/soap.png" },
+{ word: "sandwich", sound: "s", position: "initial", image: "s-sound/word initial s/sandwich.png" },
+{ word: "city", sound: "s", position: "initial", image: "s-sound/word initial s/city.png" },
+
+{ word: "ghost", sound: "s", position: "medial", image: "s-sound/word medial s/ghost.png" },
+{ word: "monster", sound: "s", position: "medial", image: "s-sound/word medial s/monster.png" },
+{ word: "toast", sound: "s", position: "medial", image: "s-sound/word medial s/toast.png" },
+{ word: "fist", sound: "s", position: "medial", image: "s-sound/word medial s/fist.png" },
+{ word: "toothpaste", sound: "s", position: "medial", image: "s-sound/word medial s/toothpaste.png" },
+{ word: "mask", sound: "s", position: "medial", image: "s-sound/word medial s/mask.png" },
+{ word: "whisper", sound: "s", position: "medial", image: "s-sound/word medial s/whisper.png" },
+{ word: "desk", sound: "s", position: "medial", image: "s-sound/word medial s/desk.png" },
+{ word: "nest", sound: "s", position: "medial", image: "s-sound/word medial s/nest.png" },
+
+{ word: "bus", sound: "s", position: "final", image: "s-sound/word final s/bus.png" },
+{ word: "house", sound: "s", position: "final", image: "s-sound/word final s/house.png" },
+{ word: "mouse", sound: "s", position: "final", image: "s-sound/word final s/mouse.png" },
+{ word: "compass", sound: "s", position: "final", image: "s-sound/word final s/compass.png" },
+{ word: "octopus", sound: "s", position: "final", image: "s-sound/word final s/octopus.png" },
+{ word: "cactus", sound: "s", position: "final", image: "s-sound/word final s/cactus.png" },
+{ word: "circus", sound: "s", position: "final", image: "s-sound/word final s/circus.png" },
+{ word: "goose", sound: "s", position: "final", image: "s-sound/word final s/goose.png" },
+{ word: "gas", sound: "s", position: "final", image: "s-sound/word final s/gas.png" },
+{ word: "class", sound: "s", position: "final", image: "s-sound/word final s/class.png" },
+{ word: "pets", sound: "s", position: "final", image: "s-sound/word final s/pets.png" },
+{ word: "juice", sound: "s", position: "final", image: "s-sound/word final s/juice.png" },
+{ word: "moose", sound: "s", position: "final", image: "s-sound/word final s/moose.png" },
+{ word: "necklace", sound: "s", position: "final", image: "s-sound/word final s/necklace.png" },
+{ word: "ice", sound: "s", position: "final", image: "s-sound/word final s/ice.png" },
+{ word: "applesauce", sound: "s", position: "final", image: "s-sound/word final s/applesauce.png" },
+{ word: "lips", sound: "s", position: "final", image: "s-sound/word final s/lips1.png" },
+
+{ word: "scarf", sound: "s-blends", position: "2element", image: "s-blends/2element/scarf.png" },
+{ word: "scalp", sound: "s-blends", position: "2element", image: "s-blends/2element/scalp.png" },
+{ word: "skin", sound: "s-blends", position: "2element", image: "s-blends/2element/skin.png" },
+{ word: "skip", sound: "s-blends", position: "2element", image: "s-blends/2element/skip.png" },
+{ word: "tusk", sound: "s-blends", position: "2element", image: "s-blends/2element/tusk.png" },
+
+{ word: "slam", sound: "s-blends", position: "2element", image: "s-blends/2element/slam.png" },
+{ word: "sled", sound: "s-blends", position: "2element", image: "s-blends/2element/sled.png" },
+{ word: "slug", sound: "s-blends", position: "2element", image: "s-blends/2element/slug.png" },
+{ word: "sloth", sound: "s-blends", position: "2element", image: "s-blends/2element/sloth.png" },
+
+{ word: "small", sound: "s-blends", position: "2element", image: "s-blends/2element/small.png" },
+{ word: "smash", sound: "s-blends", position: "2element", image: "s-blends/2element/smash.png" },
+{ word: "smell", sound: "s-blends", position: "2element", image: "s-blends/2element/smell.png" },
+
+{ word: "snack", sound: "s-blends", position: "2element", image: "s-blends/2element/snack.png" },
+{ word: "sniff", sound: "s-blends", position: "2element", image: "s-blends/2element/sniff.png" },
+
+{ word: "spill", sound: "s-blends", position: "2element", image: "s-blends/2element/spill.png" },
+{ word: "spin", sound: "s-blends", position: "2element", image: "s-blends/2element/spin.png" },
+{ word: "spot", sound: "s-blends", position: "2element", image: "s-blends/2element/spot.png" },
+{ word: "gasp", sound: "s-blends", position: "2element", image: "s-blends/2element/gasp.png" },
+{ word: "wasp", sound: "s-blends", position: "2element", image: "s-blends/2element/wasp.png" },
+
+{ word: "nest", sound: "s-blends", position: "2element", image: "s-blends/2element/nest.png" },
+{ word: "stamp", sound: "s-blends", position: "2element", image: "s-blends/2element/stamp.png" },
+{ word: "stand", sound: "s-blends", position: "2element", image: "s-blends/2element/stand.png" },
+{ word: "stick", sound: "s-blends", position: "2element", image: "s-blends/2element/stick.png" },
+{ word: "stop", sound: "s-blends", position: "2element", image: "s-blends/2element/stop.png" },
+
+{ word: "swab", sound: "s-blends", position: "2element", image: "s-blends/2element/swab.png" },
+{ word: "swamp", sound: "s-blends", position: "2element", image: "s-blends/2element/swamp.png" },
+{ word: "swim", sound: "s-blends", position: "2element", image: "s-blends/2element/swim.png" },
+{ word: "swing", sound: "s-blends", position: "2element", image: "s-blends/2element/swing.png" },
+
+{ word: "squid", sound: "s-blends", position: "3element", image: "s-blends/3element/squid.png" },
+{ word: "squish", sound: "s-blends", position: "3element", image: "s-blends/3element/squish.png" },
+{ word: "squash", sound: "s-blends", position: "3element", image: "s-blends/3element/squash.png" },
+{ word: "squiggle", sound: "s-blends", position: "3element", image: "s-blends/3element/squiggle.png" },
+{ word: "square", sound: "s-blends", position: "3element", image: "s-blends/3element/square.png" },
+{ word: "squirrel", sound: "s-blends", position: "3element", image: "s-blends/3element/squirrel.png" },
+{ word: "squabble", sound: "s-blends", position: "3element", image: "s-blends/3element/squabble.png" },
+{ word: "squeal", sound: "s-blends", position: "3element", image: "s-blends/3element/squeal.png" },
+{ word: "squeaky", sound: "s-blends", position: "3element", image: "s-blends/3element/squeaky.png" },
+{ word: "squeeze", sound: "s-blends", position: "3element", image: "s-blends/3element/squeeze.png" },
+
+{ word: "splash", sound: "s-blends", position: "3element", image: "s-blends/3element/splash.png" },
+{ word: "splatter", sound: "s-blends", position: "3element", image: "s-blends/3element/splatter.png" },
+{ word: "splint", sound: "s-blends", position: "3element", image: "s-blends/3element/splint.png" },
+{ word: "split", sound: "s-blends", position: "3element", image: "s-blends/3element/split.png" },
+{ word: "splendid", sound: "s-blends", position: "3element", image: "s-blends/3element/splendid.png" },
+{ word: "splotchy", sound: "s-blends", position: "3element", image: "s-blends/3element/splotchy.png" },
+
+{ word: "sprain", sound: "s-blends", position: "3element", image: "s-blends/3element/sprain.png" },
+{ word: "sprinkle", sound: "s-blends", position: "3element", image: "s-blends/3element/sprinkle.png" },
+{ word: "spray", sound: "s-blends", position: "3element", image: "s-blends/3element/spray.png" },
+{ word: "spread", sound: "s-blends", position: "3element", image: "s-blends/3element/spread.png" },
+{ word: "spring", sound: "s-blends", position: "3element", image: "s-blends/3element/spring.png" },
+
+{ word: "straight", sound: "s-blends", position: "3element", image: "s-blends/3element/straight.png" },
+{ word: "stripe", sound: "s-blends", position: "3element", image: "s-blends/3element/stripe.png" },
+{ word: "strap", sound: "s-blends", position: "3element", image: "s-blends/3element/strap.png" },
+{ word: "strong", sound: "s-blends", position: "3element", image: "s-blends/3element/strong.png" },
+{ word: "string", sound: "s-blends", position: "3element", image: "s-blends/3element/string.png" },
+{ word: "street", sound: "s-blends", position: "3element", image: "s-blends/3element/street.png" },
+{ word: "stream", sound: "s-blends", position: "3element", image: "s-blends/3element/stream.png" },
+{ word: "strawberry", sound: "s-blends", position: "3element", image: "s-blends/3element/strawberry.png" },
+
+{ word: "scrape", sound: "s-blends", position: "3element", image: "s-blends/3element/scrape.png" },
+{ word: "scrub", sound: "s-blends", position: "3element", image: "s-blends/3element/scrub.png" },
+{ word: "scroll", sound: "s-blends", position: "3element", image: "s-blends/3element/scroll.png" },
+{ word: "scream", sound: "s-blends", position: "3element", image: "s-blends/3element/scream.png" },
+{ word: "scratch", sound: "s-blends", position: "3element", image: "s-blends/3element/scratch.png" },
+{ word: "screen", sound: "s-blends", position: "3element", image: "s-blends/3element/screen.png" },
+{ word: "scramble", sound: "s-blends", position: "3element", image: "s-blends/3element/scramble.png" },
+{ word: "scrabble", sound: "s-blends", position: "3element", image: "s-blends/3element/scrabble.png" },
+
+{ word: "zoo", sound: "z", position: "initial", image: "z-sound/word initial z/zoo.png" },
+{ word: "zip", sound: "z", position: "initial", image: "z-sound/word initial z/zip.png" },
+{ word: "zucchini", sound: "z", position: "initial", image: "z-sound/word initial z/zucchini.png" },
+{ word: "zest", sound: "z", position: "initial", image: "z-sound/word initial z/zest.png" },
+{ word: "xylophone", sound: "z", position: "initial", image: "z-sound/word initial z/xylophone.png" },
+{ word: "zoom", sound: "z", position: "initial", image: "z-sound/word initial z/zoom.png" },
+{ word: "zero", sound: "z", position: "initial", image: "z-sound/word initial z/zero.png" },
+
+{ word: "cheesecake", sound: "z", position: "medial", image: "z-sound/word medial z/cheesecake.png" },
+{ word: "present", sound: "z", position: "medial", image: "z-sound/word medial z/present.png" },
+{ word: "music", sound: "z", position: "medial", image: "z-sound/word medial z/music.png" },
+{ word: "puzzle", sound: "z", position: "medial", image: "z-sound/word medial z/puzzle.png" },
+{ word: "dessert", sound: "z", position: "medial", image: "z-sound/word medial z/dessert.png" },
+{ word: "cousin", sound: "z", position: "medial", image: "z-sound/word medial z/cousin.png" },
+{ word: "wizard", sound: "z", position: "medial", image: "z-sound/word medial z/wizard.png" },
+{ word: "lizard", sound: "z", position: "medial", image: "z-sound/word medial z/lizard.png" },
+{ word: "scissors", sound: "z", position: "medial", image: "z-sound/word medial z/scissors.png" },
+{ word: "fuzzy", sound: "z", position: "medial", image: "z-sound/word medial z/fuzzy.png" },
+{ word: "daisy", sound: "z", position: "medial", image: "z-sound/word medial z/daisy.png" },
+{ word: "desert", sound: "z", position: "medial", image: "z-sound/word medial z/desert.png" },
+{ word: "magazine", sound: "z", position: "medial", image: "z-sound/word medial z/magazine.png" },
+
+{ word: "cheese", sound: "z", position: "final", image: "z-sound/word final z/cheese.png" },
+{ word: "boys", sound: "z", position: "final", image: "z-sound/word final z/boys.png" },
+{ word: "knees", sound: "z", position: "final", image: "z-sound/word final z/knees.png" },
+{ word: "nose", sound: "z", position: "final", image: "z-sound/word final z/nose.png" },
+{ word: "hose", sound: "z", position: "final", image: "z-sound/word final z/hose.png" },
+{ word: "rose", sound: "z", position: "final", image: "z-sound/word final z/rose.png" },
+{ word: "babies", sound: "z", position: "final", image: "z-sound/word final z/babies.png" },
+{ word: "dogs", sound: "z", position: "final", image: "z-sound/word final z/dogs.png" },
+{ word: "cookies", sound: "z", position: "final", image: "z-sound/word final z/cookies.png" },
+{ word: "bees", sound: "z", position: "final", image: "z-sound/word final z/bees.png" },
+{ word: "pigs", sound: "z", position: "final", image: "z-sound/word final z/pigs.png" },
+{ word: "legs", sound: "z", position: "final", image: "z-sound/word final z/legs.png" },
+{ word: "sneeze", sound: "z", position: "final", image: "z-sound/word final z/sneeze.png" },
+{ word: "keys", sound: "z", position: "final", image: "z-sound/word final z/keys.png" },
+{ word: "bananas", sound: "z", position: "final", image: "z-sound/word final z/bananas.png" },
+
+{ word: "thanks", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/thanks.png" },
+{ word: "three", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/three.png" },
+{ word: "thumb", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/thumb.png" },
+{ word: "thirteen", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/thirteen.png" },
+{ word: "thorn", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/thorn.png" },
+{ word: "thunder", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/thunder.png" },
+{ word: "think", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/think.png" },
+{ word: "thread", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/thread.png" },
+{ word: "thirsty", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/thirsty.png" },
+{ word: "thermos", sound: "th-voiceless", position: "initial", image: "th-sound/voiceless/word-initial-voiceless-th/thermos.png" },
+
+{ word: "birthday", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/birthday.png" },
+{ word: "bathtub", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/bathtub.png" },
+{ word: "healthy", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/healthy.png" },
+{ word: "mouthwash", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/mouthwash.png" },
+{ word: "toothbrush", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/toothbrush.png" },
+{ word: "bathroom", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/bathroom.png" },
+{ word: "stethoscope", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/stethoscope.png" },
+{ word: "author", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/author.png" },
+{ word: "toothpick", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/toothpick.png" },
+{ word: "toothache", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/toothache.png" },
+{ word: "bathrobe", sound: "th-voiceless", position: "medial", image: "th-sound/voiceless/word-medial-voiceless-th/bathrobe.png" },
+
+{ word: "dishcloth", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/dishcloth.png" },
+{ word: "mouth", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/mouth.png" },
+{ word: "north", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/north.png" },
+{ word: "month", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/month.png" },
+{ word: "bath", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/bath.png" },
+{ word: "tooth", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/tooth.png" },
+{ word: "broth", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/broth.png" },
+{ word: "south", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/south.png" },
+{ word: "washcloth", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/washcloth.png" },
+{ word: "teeth", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/teeth.png" },
+{ word: "wreath", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/wreath.png" },
+{ word: "moth", sound: "th-voiceless", position: "final", image: "th-sound/voiceless/word-final-voiceless-th/moth.png" },
+
+{ word: "that", sound: "th-voiced", position: "initial", image: "th-sound/voiced/word-initial-voiced-th/that.png" },
+{ word: "they", sound: "th-voiced", position: "initial", image: "th-sound/voiced/word-initial-voiced-th/they.png" },
+{ word: "them", sound: "th-voiced", position: "initial", image: "th-sound/voiced/word-initial-voiced-th/them.png" },
+{ word: "these", sound: "th-voiced", position: "initial", image: "th-sound/voiced/word-initial-voiced-th/these.png" },
+{ word: "theirs", sound: "th-voiced", position: "initial", image: "th-sound/voiced/word-initial-voiced-th/theirs.png" },
+{ word: "those", sound: "th-voiced", position: "initial", image: "th-sound/voiced/word-initial-voiced-th/those.png" },
+
+{ word: "feather", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/feather.png" },
+{ word: "mother", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/mother.png" },
+{ word: "weather", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/weather.png" },
+{ word: "brother", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/brother.png" },
+{ word: "bathing suit", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/bathing suit.png" },
+{ word: "grandmother", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/grandmother.png" },
+{ word: "grandfather", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/grandfather.png" },
+{ word: "father", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/father.png" },
+{ word: "smoothie", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/smoothie.png" },
+{ word: "rhythm", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/rhythm.png" },
+{ word: "together", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/together.png" },
+{ word: "slither", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/slither.png" },
+{ word: "clothing", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/clothing.png" },
+{ word: "breathing", sound: "th-voiced", position: "medial", image: "th-sound/voiced/word-medial-voiced-th/breathing.png" },
+
+{ word: "bathe", sound: "th-voiced", position: "final", image: "th-sound/voiced/word-final-voiced-th/bathe.png" },
+{ word: "breathe", sound: "th-voiced", position: "final", image: "th-sound/voiced/word-final-voiced-th/breathe.png" },
+{ word: "teethe", sound: "th-voiced", position: "final", image: "th-sound/voiced/word-final-voiced-th/teethe.png" },
+{ word: "smooth", sound: "th-voiced", position: "final", image: "th-sound/voiced/word-final-voiced-th/smooth.png" },
+{ word: "soothe", sound: "th-voiced", position: "final", image: "th-sound/voiced/word-final-voiced-th/soothe.png" },
+{ word: "seethe", sound: "th-voiced", position: "final", image: "th-sound/voiced/word-final-voiced-th/seethe.png" },
+
+{ word: "chef", sound: "sh", position: "initial", image: "sh-sound/word initial sh/chef.png" },
+{ word: "shade", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shade.png" },
+{ word: "shake", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shake.png" },
+{ word: "shape", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shape.png" },
+{ word: "shark", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shark.png" },
+{ word: "she", sound: "sh", position: "initial", image: "sh-sound/word initial sh/she.png" },
+{ word: "shed", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shed.png" },
+{ word: "sheep", sound: "sh", position: "initial", image: "sh-sound/word initial sh/sheep.png" },
+{ word: "sheet", sound: "sh", position: "initial", image: "sh-sound/word initial sh/sheet.png" },
+{ word: "shelf", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shelf.png" },
+{ word: "shoe", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shoe.png" },
+{ word: "ship", sound: "sh", position: "initial", image: "sh-sound/word initial sh/ship.png" },
+{ word: "shin", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shin.png" },
+{ word: "shell", sound: "sh", position: "initial", image: "sh-sound/word initial sh/shell.png" },
+{ word: "show", sound: "sh", position: "initial", image: "sh-sound/word initial sh/show.png" },
+
+{ word: "mushroom", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/mushroom.png" },
+{ word: "ocean", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/ocean.png" },
+{ word: "bushes", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/bushes.png" },
+{ word: "splashing", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/splashing.png" },
+{ word: "pushing", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/pushing.png" },
+{ word: "sunshine", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/sunshine.png" },
+{ word: "flashlight", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/flashlight.png" },
+{ word: "fishing", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/fishing.png" },
+{ word: "cushion", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/cushion.png" },
+{ word: "milkshake", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/milkshake.png" },
+{ word: "vacation", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/vacation.png" },
+{ word: "machine", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/machine.png" },
+{ word: "seashells", sound: "sh", position: "medial", image: "sh-sound/word-medial-sh/seashells.png" },
+
+{ word: "fish", sound: "sh", position: "final", image: "sh-sound/word-final-sh/fish.png" },
+{ word: "brush", sound: "sh", position: "final", image: "sh-sound/word-final-sh/brush.png" },
+{ word: "cash", sound: "sh", position: "final", image: "sh-sound/word-final-sh/cash.png" },
+{ word: "crush", sound: "sh", position: "final", image: "sh-sound/word-final-sh/crush.png" },
+{ word: "splash", sound: "sh", position: "final", image: "sh-sound/word-final-sh/splash.png" },
+{ word: "bush", sound: "sh", position: "final", image: "sh-sound/word-final-sh/bush.png" },
+{ word: "leash", sound: "sh", position: "final", image: "sh-sound/word-final-sh/leash.png" },
+{ word: "crash", sound: "sh", position: "final", image: "sh-sound/word-final-sh/crash.png" },
+{ word: "squash", sound: "sh", position: "final", image: "sh-sound/word-final-sh/squash.png" },
+{ word: "flush", sound: "sh", position: "final", image: "sh-sound/word-final-sh/flush.png" },
+{ word: "trash", sound: "sh", position: "final", image: "sh-sound/word-final-sh/trash.png" },
+{ word: "wish", sound: "sh", position: "final", image: "sh-sound/word-final-sh/wish.png" },
+{ word: "push", sound: "sh", position: "final", image: "sh-sound/word-final-sh/push.png" },
+{ word: "wash", sound: "sh", position: "final", image: "sh-sound/word-final-sh/wash.png" },
+{ word: "dish", sound: "sh", position: "final", image: "sh-sound/word-final-sh/dish.png" },
+{ word: "hush", sound: "sh", position: "final", image: "sh-sound/word-final-sh/hush.png" },
+{ word: "finish", sound: "sh", position: "final", image: "sh-sound/word-final-sh/finish.png" },
+{ word: "eyelash", sound: "sh", position: "final", image: "sh-sound/word-final-sh/eyelash.png" },
+
+{ word: "chop", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chop.png" },
+{ word: "chess", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chess.png" },
+{ word: "cheese", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/cheese.png" },
+{ word: "chalk", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chalk.png" },
+{ word: "chew", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chew.png" },
+{ word: "chair", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chair.png" },
+{ word: "chat", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chat.png" },
+{ word: "chase", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chase.png" },
+{ word: "child", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/child.png" },
+{ word: "chocolate", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chocolate.png" },
+{ word: "cheer", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/cheer.png" },
+{ word: "chin", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chin.png" },
+{ word: "chain", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chain.png" },
+{ word: "chip", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chip.png" },
+{ word: "check", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/check.png" },
+{ word: "chick", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chick.png" },
+{ word: "chimp", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chimp.png" },
+{ word: "chomp", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chomp.png" },
+{ word: "chill", sound: "ch", position: "initial", image: "ch-sound/word-initial-ch/chill.png" },
+
+{ word: "kitchen", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/kitchen.png" },
+{ word: "marching", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/marching.png" },
+{ word: "teacher", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/teacher.png" },
+{ word: "nachos", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/nachos.png" },
+{ word: "crutches", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/crutches.png" },
+{ word: "pitcher", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/pitcher.png" },
+{ word: "highchair", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/highchair.png" },
+{ word: "lunchbox", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/lunchbox.png" },
+{ word: "touchscreen", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/touchscreen.png" },
+{ word: "matches", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/matches.png" },
+{ word: "paycheck", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/paycheck.png" },
+{ word: "ketchup", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/ketchup.png" },
+{ word: "crunchy", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/crunchy.png" },
+{ word: "stretching", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/stretching.png" },
+{ word: "itching", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/itching.png" },
+{ word: "peaches", sound: "ch", position: "medial", image: "ch-sound/word-medial-ch/peaches.png" },
+
+{ word: "couch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/couch.png" },
+{ word: "itch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/itch.png" },
+{ word: "pinch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/pinch.png" },
+{ word: "lunch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/lunch.png" },
+{ word: "sandwich", sound: "ch", position: "final", image: "ch-sound/word-final-ch/sandwich.png" },
+{ word: "witch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/witch.png" },
+{ word: "peach", sound: "ch", position: "final", image: "ch-sound/word-final-ch/peach.png" },
+{ word: "switch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/switch.png" },
+{ word: "catch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/catch.png" },
+{ word: "rich", sound: "ch", position: "final", image: "ch-sound/word-final-ch/rich.png" },
+{ word: "watch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/watch.png" },
+{ word: "bench", sound: "ch", position: "final", image: "ch-sound/word-final-ch/bench.png" },
+{ word: "beach", sound: "ch", position: "final", image: "ch-sound/word-final-ch/beach.png" },
+{ word: "ostrich", sound: "ch", position: "final", image: "ch-sound/word-final-ch/ostrich.png" },
+{ word: "stretch", sound: "ch", position: "final", image: "ch-sound/word-final-ch/stretch.png" },
+{ word: "coach", sound: "ch", position: "final", image: "ch-sound/word-final-ch/coach.png" },
+
+{ word: "jacket", sound: "j", position: "initial", image: "j-sound/word initial j/jacket.png" },
+{ word: "jeep", sound: "j", position: "initial", image: "j-sound/word initial j/jeep.png" },
+{ word: "jet ski", sound: "j", position: "initial", image: "j-sound/word initial j/jet ski.png" },
+{ word: "jump", sound: "j", position: "initial", image: "j-sound/word initial j/jump.png" },
+{ word: "Jupiter", sound: "j", position: "initial", image: "j-sound/word initial j/Jupiter.png" },
+{ word: "jam", sound: "j", position: "initial", image: "j-sound/word initial j/jam.png" },
+{ word: "jewel", sound: "j", position: "initial", image: "j-sound/word initial j/jewel.png" },
+{ word: "jello", sound: "j", position: "initial", image: "j-sound/word initial j/jello.png" },
+{ word: "jellybeans", sound: "j", position: "initial", image: "j-sound/word initial j/jellybeans.png" },
+{ word: "judge", sound: "j", position: "initial", image: "j-sound/word initial j/judge.png" },
+{ word: "juggle", sound: "j", position: "initial", image: "j-sound/word initial j/juggle.png" },
+{ word: "Jeff", sound: "j", position: "initial", image: "j-sound/word initial j/Jeff.png" },
+{ word: "juice", sound: "j", position: "initial", image: "j-sound/word initial j/juice.png" },
+{ word: "jazz", sound: "j", position: "initial", image: "j-sound/word initial j/jazz.png" },
+{ word: "jacks", sound: "j", position: "initial", image: "j-sound/word initial j/jacks.png" },
+{ word: "jar", sound: "j", position: "initial", image: "j-sound/word initial j/jar.png" },
+{ word: "joke", sound: "j", position: "initial", image: "j-sound/word initial j/joke.png" },
+{ word: "jellyfish", sound: "j", position: "initial", image: "j-sound/word initial j/jellyfish.png" },
+
+{ word: "garbage can", sound: "j", position: "medial", image: "j-sound/word medial j/garbage can.png" },
+{ word: "magic", sound: "j", position: "medial", image: "j-sound/word medial j/magic.png" },
+{ word: "injury", sound: "j", position: "medial", image: "j-sound/word medial j/injury.png" },
+{ word: "danger", sound: "j", position: "medial", image: "j-sound/word medial j/danger.png" },
+{ word: "pages", sound: "j", position: "medial", image: "j-sound/word medial j/pages.png" },
+{ word: "pigeon", sound: "j", position: "medial", image: "j-sound/word medial j/pigeon.png" },
+{ word: "wages", sound: "j", position: "medial", image: "j-sound/word medial j/wages.png" },
+{ word: "cages", sound: "j", position: "medial", image: "j-sound/word medial j/cages.png" },
+{ word: "object", sound: "j", position: "medial", image: "j-sound/word medial j/object.png" },
+{ word: "hedgehog", sound: "j", position: "medial", image: "j-sound/word medial j/hedgehog.png" },
+
+{ word: "huge", sound: "j", position: "final", image: "j-sound/word final j/huge.png" },
+{ word: "stage", sound: "j", position: "final", image: "j-sound/word final j/stage.png" },
+{ word: "cage", sound: "j", position: "final", image: "j-sound/word final j/cage.png" },
+{ word: "bandage", sound: "j", position: "final", image: "j-sound/word final j/bandage.png" },
+{ word: "garage", sound: "j", position: "final", image: "j-sound/word final j/garage.png" },
+{ word: "age", sound: "j", position: "final", image: "j-sound/word final j/age.png" },
+{ word: "large", sound: "j", position: "final", image: "j-sound/word final j/large.png" },
+{ word: "college", sound: "j", position: "final", image: "j-sound/word final j/college.png" },
+{ word: "change", sound: "j", position: "final", image: "j-sound/word final j/change.png" },
+{ word: "image", sound: "j", position: "final", image: "j-sound/word final j/image.png" },
+{ word: "sponge", sound: "j", position: "final", image: "j-sound/word final j/sponge.png" },
+{ word: "cabbage", sound: "j", position: "final", image: "j-sound/word final j/cabbage.png" },
+{ word: "orange", sound: "j", position: "final", image: "j-sound/word final j/orange.png" },
+{ word: "beverage", sound: "j", position: "final", image: "j-sound/word final j/beverage.png" },
+{ word: "garbage", sound: "j", position: "final", image: "j-sound/word final j/garbage.png" },
+{ word: "smudge", sound: "j", position: "final", image: "j-sound/word final j/smudge.png" },
+{ word: "fridge", sound: "j", position: "final", image: "j-sound/word final j/fridge.png" },
+{ word: "bridge", sound: "j", position: "final", image: "j-sound/word final j/bridge.png" },
+{ word: "fudge", sound: "j", position: "final", image: "j-sound/word final j/fudge.png" },
+{ word: "courage", sound: "j", position: "final", image: "j-sound/word final j/courage.png" },
+
+{ word: "lime", sound: "l", position: "initial", image: "l-sound/word initial l/lime.png" },
+{ word: "lion", sound: "l", position: "initial", image: "l-sound/word initial l/lion.png" },
+{ word: "look", sound: "l", position: "initial", image: "l-sound/word initial l/look.png" },
+{ word: "lock", sound: "l", position: "initial", image: "l-sound/word initial l/lock.png" },
+{ word: "lollipop", sound: "l", position: "initial", image: "l-sound/word initial l/lollipop.png" },
+{ word: "leg", sound: "l", position: "initial", image: "l-sound/word initial l/leg.png" },
+{ word: "lego", sound: "l", position: "initial", image: "l-sound/word initial l/lego.png" },
+{ word: "love", sound: "l", position: "initial", image: "l-sound/word initial l/love.png" },
+{ word: "low", sound: "l", position: "initial", image: "l-sound/word initial l/low.png" },
+{ word: "lips", sound: "l", position: "initial", image: "l-sound/word initial l/lips.png" },
+{ word: "lizard", sound: "l", position: "initial", image: "l-sound/word initial l/lizard.png" },
+{ word: "light", sound: "l", position: "initial", image: "l-sound/word initial l/light.png" },
+{ word: "land", sound: "l", position: "initial", image: "l-sound/word initial l/land.png" },
+{ word: "last", sound: "l", position: "initial", image: "l-sound/word initial l/last.png" },
+{ word: "leopard", sound: "l", position: "initial", image: "l-sound/word initial l/leopard.png" },
+{ word: "lemon", sound: "l", position: "initial", image: "l-sound/word initial l/lemon.png" },
+{ word: "lick", sound: "l", position: "initial", image: "l-sound/word initial l/lick.png" },
+{ word: "letter", sound: "l", position: "initial", image: "l-sound/word initial l/letter.png" },
+{ word: "lid", sound: "l", position: "initial", image: "l-sound/word initial l/lid.png" },
+{ word: "lei", sound: "l", position: "initial", image: "l-sound/word initial l/lei.png" },
+{ word: "lab", sound: "l", position: "initial", image: "l-sound/word initial l/lab.png" },
+{ word: "leap", sound: "l", position: "initial", image: "l-sound/word initial l/leap.png" },
+{ word: "line", sound: "l", position: "initial", image: "l-sound/word initial l/line.png" },
+{ word: "load", sound: "l", position: "initial", image: "l-sound/word initial l/load.png" },
+{ word: "loud", sound: "l", position: "initial", image: "l-sound/word initial l/loud.png" },
+{ word: "lobe", sound: "l", position: "initial", image: "l-sound/word initial l/lobe.png" },
+{ word: "lake", sound: "l", position: "initial", image: "l-sound/word initial l/lake.png" },
+{ word: "laugh", sound: "l", position: "initial", image: "l-sound/word initial l/laugh.png" },
+{ word: "lace", sound: "l", position: "initial", image: "l-sound/word initial l/lace.png" },
+{ word: "lamb", sound: "l", position: "initial", image: "l-sound/word initial l/lamb.png" },
+{ word: "loaf", sound: "l", position: "initial", image: "l-sound/word initial l/loaf.png" },
+{ word: "lamp", sound: "l", position: "initial", image: "l-sound/word initial l/lamp.png" },
+{ word: "ladder", sound: "l", position: "initial", image: "l-sound/word initial l/ladder.png" },
+{ word: "lady bug", sound: "l", position: "initial", image: "l-sound/word initial l/lady bug.png" },
+{ word: "log", sound: "l", position: "initial", image: "l-sound/word initial l/log.png" },
+
+{ word: "ruler", sound: "l", position: "medial", image: "l-sound/word medial l/ruler.png" },
+{ word: "ballet", sound: "l", position: "medial", image: "l-sound/word medial l/ballet.png" },
+{ word: "balloon", sound: "l", position: "medial", image: "l-sound/word medial l/balloon.png" },
+{ word: "jello", sound: "l", position: "medial", image: "l-sound/word medial l/jello.png" },
+{ word: "island", sound: "l", position: "medial", image: "l-sound/word medial l/island.png" },
+{ word: "salad", sound: "l", position: "medial", image: "l-sound/word medial l/salad.png" },
+{ word: "pillow", sound: "l", position: "medial", image: "l-sound/word medial l/pillow.png" },
+{ word: "milk", sound: "l", position: "medial", image: "l-sound/word medial l/milk.png" },
+{ word: "buffalo", sound: "l", position: "medial", image: "l-sound/word medial l/buffalo.png" },
+{ word: "eleven", sound: "l", position: "medial", image: "l-sound/word medial l/eleven.png" },
+{ word: "bowling", sound: "l", position: "medial", image: "l-sound/word medial l/bowling.png" },
+{ word: "silly", sound: "l", position: "medial", image: "l-sound/word medial l/silly.png" },
+{ word: "jelly", sound: "l", position: "medial", image: "l-sound/word medial l/jelly.png" },
+{ word: "celery", sound: "l", position: "medial", image: "l-sound/word medial l/celery.png" },
+{ word: "elephant", sound: "l", position: "medial", image: "l-sound/word medial l/elephant.png" },
+{ word: "cello", sound: "l", position: "medial", image: "l-sound/word medial l/cello.png" },
+{ word: "cooler", sound: "l", position: "medial", image: "l-sound/word medial l/cooler.png" },
+{ word: "goalie", sound: "l", position: "medial", image: "l-sound/word medial l/goalie.png" },
+{ word: "sailing", sound: "l", position: "medial", image: "l-sound/word medial l/sailing.png" },
+{ word: "eyelash", sound: "l", position: "medial", image: "l-sound/word medial l/eyelash.png" },
+{ word: "necklace", sound: "l", position: "medial", image: "l-sound/word medial l/necklace.png" },
+{ word: "toilet", sound: "l", position: "medial", image: "l-sound/word medial l/toilet.png" },
+{ word: "alligator", sound: "l", position: "medial", image: "l-sound/word medial l/alligator.png" },
+{ word: "halloween", sound: "l", position: "medial", image: "l-sound/word medial l/halloween.png" },
+{ word: "hello", sound: "l", position: "medial", image: "l-sound/word medial l/hello.png" },
+
+{ word: "tall", sound: "l", position: "final", image: "l-sound/word final l/tall.png" },
+{ word: "bell", sound: "l", position: "final", image: "l-sound/word final l/bell.png" },
+{ word: "owl", sound: "l", position: "final", image: "l-sound/word final l/owl.png" },
+{ word: "school", sound: "l", position: "final", image: "l-sound/word final l/school.png" },
+{ word: "whale", sound: "l", position: "final", image: "l-sound/word final l/whale.png" },
+{ word: "pool", sound: "l", position: "final", image: "l-sound/word final l/pool.png" },
+{ word: "apple", sound: "l", position: "final", image: "l-sound/word final l/apple.png" },
+{ word: "snail", sound: "l", position: "final", image: "l-sound/word final l/snail.png" },
+{ word: "ankle", sound: "l", position: "final", image: "l-sound/word final l/ankle.png" },
+{ word: "hole", sound: "l", position: "final", image: "l-sound/word final l/hole.png" },
+{ word: "tickle", sound: "l", position: "final", image: "l-sound/word final l/tickle.png" },
+{ word: "call", sound: "l", position: "final", image: "l-sound/word final l/call.png" },
+{ word: "shell", sound: "l", position: "final", image: "l-sound/word final l/shell.png" },
+{ word: "ball", sound: "l", position: "final", image: "l-sound/word final l/ball.png" },
+{ word: "nail", sound: "l", position: "final", image: "l-sound/word final l/nail.png" },
+{ word: "seal", sound: "l", position: "final", image: "l-sound/word final l/seal.png" },
+{ word: "tool", sound: "l", position: "final", image: "l-sound/word final l/tool.png" },
+{ word: "doll", sound: "l", position: "final", image: "l-sound/word final l/doll.png" },
+{ word: "bowl", sound: "l", position: "final", image: "l-sound/word final l/bowl.png" },
+{ word: "pencil", sound: "l", position: "final", image: "l-sound/word final l/pencil.png" },
+{ word: "drill", sound: "l", position: "final", image: "l-sound/word final l/drill.png" },
+{ word: "basil", sound: "l", position: "final", image: "l-sound/word final l/basil.png" },
+{ word: "oval", sound: "l", position: "final", image: "l-sound/word final l/oval.png" },
+
+{ word: "black", sound: "l-blends", position: "2element", image: "l-blends/2element/black.png" },
+{ word: "bland", sound: "l-blends", position: "2element", image: "l-blends/2element/bland.png" },
+{ word: "blank", sound: "l-blends", position: "2element", image: "l-blends/2element/blank.png" },
+{ word: "blimp", sound: "l-blends", position: "2element", image: "l-blends/2element/blimp.png" },
+{ word: "blink", sound: "l-blends", position: "2element", image: "l-blends/2element/blink.png" },
+{ word: "blonde", sound: "l-blends", position: "2element", image: "l-blends/2element/blonde.png" },
+{ word: "block", sound: "l-blends", position: "2element", image: "l-blends/2element/block.png" },
+{ word: "blush", sound: "l-blends", position: "2element", image: "l-blends/2element/blush.png" },
+
+{ word: "clamp", sound: "l-blends", position: "2element", image: "l-blends/2element/clamp.png" },
+{ word: "clap", sound: "l-blends", position: "2element", image: "l-blends/2element/clap.png" },
+{ word: "click", sound: "l-blends", position: "2element", image: "l-blends/2element/click.png" },
+{ word: "clock", sound: "l-blends", position: "2element", image: "l-blends/2element/clock.png" },
+{ word: "cluck", sound: "l-blends", position: "2element", image: "l-blends/2element/cluck.png" },
+{ word: "clack", sound: "l-blends", position: "2element", image: "l-blends/2element/clack.png" },
+
+{ word: "flag", sound: "l-blends", position: "2element", image: "l-blends/2element/flag.png" },
+{ word: "flap", sound: "l-blends", position: "2element", image: "l-blends/2element/flap.png" },
+{ word: "flash", sound: "l-blends", position: "2element", image: "l-blends/2element/flash.png" },
+{ word: "fling", sound: "l-blends", position: "2element", image: "l-blends/2element/fling.png" },
+{ word: "flip", sound: "l-blends", position: "2element", image: "l-blends/2element/flip.png" },
+{ word: "flock", sound: "l-blends", position: "2element", image: "l-blends/2element/flock.png" },
+{ word: "flip flop", sound: "l-blends", position: "2element", image: "l-blends/2element/flip flop.png" },
+{ word: "flush", sound: "l-blends", position: "2element", image: "l-blends/2element/flush.png" },
+
+{ word: "glad", sound: "l-blends", position: "2element", image: "l-blends/2element/glad.png" },
+{ word: "glass", sound: "l-blends", position: "2element", image: "l-blends/2element/glass.png" },
+{ word: "glitch", sound: "l-blends", position: "2element", image: "l-blends/2element/glitch.png" },
+{ word: "glob", sound: "l-blends", position: "2element", image: "l-blends/2element/glob.png" },
+{ word: "glum", sound: "l-blends", position: "2element", image: "l-blends/2element/glum.png" },
+
+{ word: "plank", sound: "l-blends", position: "2element", image: "l-blends/2element/plank.png" },
+{ word: "plant", sound: "l-blends", position: "2element", image: "l-blends/2element/plant.png" },
+{ word: "pluck", sound: "l-blends", position: "2element", image: "l-blends/2element/pluck.png" },
+{ word: "plug", sound: "l-blends", position: "2element", image: "l-blends/2element/plug.png" },
+{ word: "plum", sound: "l-blends", position: "2element", image: "l-blends/2element/plum.png" },
+{ word: "plus", sound: "l-blends", position: "2element", image: "l-blends/2element/plus.png" },
+
+{ word: "slam", sound: "l-blends", position: "2element", image: "l-blends/2element/slam.png" },
+{ word: "sled", sound: "l-blends", position: "2element", image: "l-blends/2element/sled.png" },
+{ word: "slept", sound: "l-blends", position: "2element", image: "l-blends/2element/slept.png" },
+{ word: "sleep", sound: "l-blends", position: "2element", image: "l-blends/2element/sleep.png" },
+{ word: "slip", sound: "l-blends", position: "2element", image: "l-blends/2element/slip.png" },
+{ word: "sloth", sound: "l-blends", position: "2element", image: "l-blends/2element/sloth.png" },
+{ word: "slug", sound: "l-blends", position: "2element", image: "l-blends/2element/slug.png" },
+{ word: "slump", sound: "l-blends", position: "2element", image: "l-blends/2element/slump.png" },
+
+{ word: "splash", sound: "l-blends", position: "3element", image: "l-blends/3element/splash.png" },
+{ word: "split", sound: "l-blends", position: "3element", image: "l-blends/3element/split.png" },
+{ word: "splinter", sound: "l-blends", position: "3element", image: "l-blends/3element/splinter.png" },
+{ word: "splendid", sound: "l-blends", position: "3element", image: "l-blends/3element/splendid.png" },
+{ word: "splatter", sound: "l-blends", position: "3element", image: "l-blends/3element/splatter.png" },
+{ word: "splotch", sound: "l-blends", position: "3element", image: "l-blends/3element/splotch.png" },
+
+{ word: "brag", sound: "r-blends", position: "2element", image: "r-blends/2element/brag.png" },
+{ word: "brick", sound: "r-blends", position: "2element", image: "r-blends/2element/brick.png" },
+{ word: "bring", sound: "r-blends", position: "2element", image: "r-blends/2element/bring.png" },
+{ word: "brisk", sound: "r-blends", position: "2element", image: "r-blends/2element/brisk.png" },
+{ word: "brush", sound: "r-blends", position: "2element", image: "r-blends/2element/brush.png" },
+
+{ word: "crab", sound: "r-blends", position: "2element", image: "r-blends/2element/crab.png" },
+{ word: "crack", sound: "r-blends", position: "2element", image: "r-blends/2element/crack.png" },
+{ word: "craft", sound: "r-blends", position: "2element", image: "r-blends/2element/craft.png" },
+{ word: "cramp", sound: "r-blends", position: "2element", image: "r-blends/2element/cramp.png" },
+{ word: "crash", sound: "r-blends", position: "2element", image: "r-blends/2element/crash.png" },
+{ word: "crib", sound: "r-blends", position: "2element", image: "r-blends/2element/crib.png" },
+{ word: "crisp", sound: "r-blends", position: "2element", image: "r-blends/2element/crisp.png" },
+{ word: "crop", sound: "r-blends", position: "2element", image: "r-blends/2element/crop.png" },
+{ word: "crust", sound: "r-blends", position: "2element", image: "r-blends/2element/crust.png" },
+
+{ word: "draft", sound: "r-blends", position: "2element", image: "r-blends/2element/draft.png" },
+{ word: "drag", sound: "r-blends", position: "2element", image: "r-blends/2element/drag.png" },
+{ word: "dress", sound: "r-blends", position: "2element", image: "r-blends/2element/dress.png" },
+{ word: "drill", sound: "r-blends", position: "2element", image: "r-blends/2element/drill.png" },
+{ word: "drink", sound: "r-blends", position: "2element", image: "r-blends/2element/drink.png" },
+{ word: "drip", sound: "r-blends", position: "2element", image: "r-blends/2element/drip.png" },
+{ word: "drop", sound: "r-blends", position: "2element", image: "r-blends/2element/drop.png" },
+{ word: "drum", sound: "r-blends", position: "2element", image: "r-blends/2element/drum.png" },
+
+{ word: "fresh", sound: "r-blends", position: "2element", image: "r-blends/2element/fresh.png" },
+{ word: "frock", sound: "r-blends", position: "2element", image: "r-blends/2element/frock.png" },
+{ word: "frog", sound: "r-blends", position: "2element", image: "r-blends/2element/frog.png" },
+{ word: "frost", sound: "r-blends", position: "2element", image: "r-blends/2element/frost.png" },
+
+{ word: "grab", sound: "r-blends", position: "2element", image: "r-blends/2element/grab.png" },
+{ word: "grasp", sound: "r-blends", position: "2element", image: "r-blends/2element/grasp.png" },
+{ word: "grass", sound: "r-blends", position: "2element", image: "r-blends/2element/grass.png" },
+{ word: "grin", sound: "r-blends", position: "2element", image: "r-blends/2element/grin.png" },
+{ word: "grunt", sound: "r-blends", position: "2element", image: "r-blends/2element/grunt.png" },
+
+{ word: "prank", sound: "r-blends", position: "2element", image: "r-blends/2element/prank.png" },
+{ word: "press", sound: "r-blends", position: "2element", image: "r-blends/2element/press.png" },
+{ word: "print", sound: "r-blends", position: "2element", image: "r-blends/2element/print.png" },
+
+{ word: "track", sound: "r-blends", position: "2element", image: "r-blends/2element/track.png" },
+{ word: "trap", sound: "r-blends", position: "2element", image: "r-blends/2element/trap.png" },
+{ word: "trash", sound: "r-blends", position: "2element", image: "r-blends/2element/trash.png" },
+{ word: "trick", sound: "r-blends", position: "2element", image: "r-blends/2element/trick.png" },
+{ word: "trim", sound: "r-blends", position: "2element", image: "r-blends/2element/trim.png" },
+{ word: "truck", sound: "r-blends", position: "2element", image: "r-blends/2element/truck.png" },
+{ word: "trunk", sound: "r-blends", position: "2element", image: "r-blends/2element/trunk.png" },
+
+{ word: "read", sound: "r", position: "initial", image: "r-sound/word initial r/read.png" },
+{ word: "run", sound: "r", position: "initial", image: "r-sound/word initial r/run.png" },
+{ word: "round", sound: "r", position: "initial", image: "r-sound/word initial r/round.png" },
+{ word: "rain", sound: "r", position: "initial", image: "r-sound/word initial r/rain.png" },
+{ word: "room", sound: "r", position: "initial", image: "r-sound/word initial r/room.png" },
+{ word: "red", sound: "r", position: "initial", image: "r-sound/word initial r/red.png" },
+{ word: "rock", sound: "r", position: "initial", image: "r-sound/word initial r/rock.png" },
+{ word: "road", sound: "r", position: "initial", image: "r-sound/word initial r/road.png" },
+{ word: "rest", sound: "r", position: "initial", image: "r-sound/word initial r/rest.png" },
+{ word: "ride", sound: "r", position: "initial", image: "r-sound/word initial r/ride.png" },
+{ word: "write", sound: "r", position: "initial", image: "r-sound/word initial r/write.png" },
+{ word: "right", sound: "r", position: "initial", image: "r-sound/word initial r/right.png" },
+{ word: "radio", sound: "r", position: "initial", image: "r-sound/word initial r/radio.png" },
+{ word: "robot", sound: "r", position: "initial", image: "r-sound/word initial r/robot.png" },
+{ word: "rocket", sound: "r", position: "initial", image: "r-sound/word initial r/rocket.png" },
+{ word: "recycle", sound: "r", position: "initial", image: "r-sound/word initial r/recycle.png" },
+{ word: "rainbow", sound: "r", position: "initial", image: "r-sound/word initial r/rainbow.png" },
+{ word: "raccoon", sound: "r", position: "initial", image: "r-sound/word initial r/raccoon.png" },
+{ word: "rabbit", sound: "r", position: "initial", image: "r-sound/word initial r/rabbit.png" },
+{ word: "remote", sound: "r", position: "initial", image: "r-sound/word initial r/remote.png" },
+{ word: "reading", sound: "r", position: "initial", image: "r-sound/word initial r/reading.png" },
+{ word: "raisins", sound: "r", position: "initial", image: "r-sound/word initial r/raisins.png" },
+{ word: "race", sound: "r", position: "initial", image: "r-sound/word initial r/race.png" },
+{ word: "rat", sound: "r", position: "initial", image: "r-sound/word initial r/rat.png" },
+{ word: "ram", sound: "r", position: "initial", image: "r-sound/word initial r/ram.png" },
+{ word: "rice", sound: "r", position: "initial", image: "r-sound/word initial r/rice.png" },
+{ word: "rake", sound: "r", position: "initial", image: "r-sound/word initial r/rake.png" },
+{ word: "rug", sound: "r", position: "initial", image: "r-sound/word initial r/rug.png" },
+{ word: "ring", sound: "r", position: "initial", image: "r-sound/word initial r/ring.png" },
+{ word: "rag", sound: "r", position: "initial", image: "r-sound/word initial r/rag.png" },
+{ word: "rope", sound: "r", position: "initial", image: "r-sound/word initial r/rope.png" },
+{ word: "rhino", sound: "r", position: "initial", image: "r-sound/word initial r/rhino.png" },
+{ word: "robe", sound: "r", position: "initial", image: "r-sound/word initial r/robe.png" },
+{ word: "wreath", sound: "r", position: "initial", image: "r-sound/word initial r/wreath.png" },
+{ word: "ruby", sound: "r", position: "initial", image: "r-sound/word initial r/ruby.png" },
+{ word: "ruler", sound: "r", position: "initial", image: "r-sound/word initial r/ruler.png" },
+{ word: "rocker", sound: "r", position: "initial", image: "r-sound/word initial r/rocker.png" },
+{ word: "roses", sound: "r", position: "initial", image: "r-sound/word initial r/roses.png" },
+{ word: "radish", sound: "r", position: "initial", image: "r-sound/word initial r/radish.png" },
+{ word: "raspberry", sound: "r", position: "initial", image: "r-sound/word initial r/raspberry.png" },
+{ word: "recorder", sound: "r", position: "initial", image: "r-sound/word initial r/recorder.png" },
+{ word: "register", sound: "r", position: "initial", image: "r-sound/word initial r/register.png" },
+{ word: "ravioli", sound: "r", position: "initial", image: "r-sound/word initial r/ravioli.png" },
+
+{ word: "air", sound: "air", position: "initial", image: "r-sound/word initial air/air.png" },
+{ word: "airplane", sound: "air", position: "initial", image: "r-sound/word initial air/airplane.png" },
+{ word: "arrow", sound: "air", position: "initial", image: "r-sound/word initial air/arrow.png" },
+{ word: "area rug", sound: "air", position: "initial", image: "r-sound/word initial air/area rug.png" },
+{ word: "airport", sound: "air", position: "initial", image: "r-sound/word initial air/airport.png" },
+{ word: "Arizona", sound: "air", position: "initial", image: "r-sound/word initial air/arizona.png" },
+{ word: "errands", sound: "air", position: "initial", image: "r-sound/word initial air/errands.png" },
+{ word: "air fryer", sound: "air", position: "initial", image: "r-sound/word initial air/air fryer.png" },
+
+{ word: "cherry", sound: "air", position: "medial", image: "r-sound/word medial air/cherry.png" },
+{ word: "berries", sound: "air", position: "medial", image: "r-sound/word medial air/berries.png" },
+{ word: "clarinet", sound: "air", position: "medial", image: "r-sound/word medial air/clarinet.png" },
+{ word: "strawberry", sound: "air", position: "medial", image: "r-sound/word medial air/strawberry.png" },
+{ word: "blueberry", sound: "air", position: "medial", image: "r-sound/word medial air/blueberry.png" },
+{ word: "ferris wheel", sound: "air", position: "medial", image: "r-sound/word medial air/ferris wheel.png" },
+{ word: "January", sound: "air", position: "medial", image: "r-sound/word medial air/january.png" },
+{ word: "February", sound: "air", position: "medial", image: "r-sound/word medial air/february.png" },
+{ word: "barrel", sound: "air", position: "medial", image: "r-sound/word medial air/barrel.png" },
+{ word: "scary", sound: "air", position: "medial", image: "r-sound/word medial air/scary.png" },
+{ word: "fairy", sound: "air", position: "medial", image: "r-sound/word medial air/fairy.png" },
+{ word: "barefoot", sound: "air", position: "medial", image: "r-sound/word medial air/barefoot.png" },
+{ word: "canary", sound: "air", position: "medial", image: "r-sound/word medial air/canary.png" },
+{ word: "America", sound: "air", position: "medial", image: "r-sound/word medial air/america.png" },
+{ word: "wheelbarrow", sound: "air", position: "medial", image: "r-sound/word medial air/wheelbarrow.png" },
+{ word: "dairy", sound: "air", position: "medial", image: "r-sound/word medial air/dairy.png" },
+{ word: "haircut", sound: "air", position: "medial", image: "r-sound/word medial air/haircut.png" },
+{ word: "bears", sound: "air", position: "medial", image: "r-sound/word medial air/bears.png" },
+{ word: "ferret", sound: "air", position: "medial", image: "r-sound/word medial air/ferret.png" },
+{ word: "paradise", sound: "air", position: "medial", image: "r-sound/word medial air/paradise.png" },
+{ word: "sharing", sound: "air", position: "medial", image: "r-sound/word medial air/sharing.png" },
+{ word: "stairs", sound: "air", position: "medial", image: "r-sound/word medial air/stairs.png" },
+{ word: "parallel", sound: "air", position: "medial", image: "r-sound/word medial air/parallel.png" },
+{ word: "library", sound: "air", position: "medial", image: "r-sound/word medial air/library.png" },
+{ word: "wheelchair", sound: "air", position: "medial", image: "r-sound/word medial air/wheelchair.png" },
+{ word: "carrot", sound: "air", position: "medial", image: "r-sound/word medial air/carrot.png" },
+{ word: "squares", sound: "air", position: "medial", image: "r-sound/word medial air/squares.png" },
+{ word: "stereo", sound: "air", position: "medial", image: "r-sound/word medial air/stereo.png" },
+
+{ word: "bear", sound: "air", position: "final", image: "r-sound/word final air/bear.png" },
+{ word: "chair", sound: "air", position: "final", image: "r-sound/word final air/chair.png" },
+{ word: "hair", sound: "air", position: "final", image: "r-sound/word final air/hair.png" },
+{ word: "wear", sound: "air", position: "final", image: "r-sound/word final air/wear.png" },
+{ word: "mare", sound: "air", position: "final", image: "r-sound/word final air/mare.png" },
+{ word: "stare", sound: "air", position: "final", image: "r-sound/word final air/stare.png" },
+{ word: "fair", sound: "air", position: "final", image: "r-sound/word final air/fair.png" },
+{ word: "care", sound: "air", position: "final", image: "r-sound/word final air/care.png" },
+{ word: "pear", sound: "air", position: "final", image: "r-sound/word final air/pear.png" },
+{ word: "pair", sound: "air", position: "final", image: "r-sound/word final air/pair.png" },
+{ word: "square", sound: "air", position: "final", image: "r-sound/word final air/square.png" },
+{ word: "eclair", sound: "air", position: "final", image: "r-sound/word final air/eclair.png" },
+{ word: "panda bear", sound: "air", position: "final", image: "r-sound/word final air/panda bear.png" },
+{ word: "millionaire", sound: "air", position: "final", image: "r-sound/word final air/millionaire.png" },
+{ word: "share", sound: "air", position: "final", image: "r-sound/word final air/share.png" },
+{ word: "repair", sound: "air", position: "final", image: "r-sound/word final air/repair.png" },
+{ word: "glare", sound: "air", position: "final", image: "r-sound/word final air/glare.png" },
+{ word: "tear", sound: "air", position: "final", image: "r-sound/word final air/tear.png" },
+{ word: "unfair", sound: "air", position: "final", image: "r-sound/word final air/unfair.png" },
+
+{ word: "art", sound: "ar", position: "initial", image: "r-sound/word initial ar/art.png" },
+{ word: "arm", sound: "ar", position: "initial", image: "r-sound/word initial ar/arm.png" },
+{ word: "archer", sound: "ar", position: "initial", image: "r-sound/word initial ar/archer.png" },
+{ word: "argue", sound: "ar", position: "initial", image: "r-sound/word initial ar/argue.png" },
+{ word: "aardvark", sound: "ar", position: "initial", image: "r-sound/word initial ar/aardvark.png" },
+{ word: "armpit", sound: "ar", position: "initial", image: "r-sound/word initial ar/armpit.png" },
+{ word: "arctic", sound: "ar", position: "initial", image: "r-sound/word initial ar/arctic.png" },
+{ word: "armor", sound: "ar", position: "initial", image: "r-sound/word initial ar/armor.png" },
+{ word: "armadillo", sound: "ar", position: "initial", image: "r-sound/word initial ar/armadillo.png" },
+{ word: "artichoke", sound: "ar", position: "initial", image: "r-sound/word initial ar/artichoke.png" },
+{ word: "arch", sound: "ar", position: "initial", image: "r-sound/word initial ar/arch.png" },
+
+{ word: "bark", sound: "ar", position: "medial", image: "r-sound/word medial ar/bark.png" },
+{ word: "barn", sound: "ar", position: "medial", image: "r-sound/word medial ar/barn.png" },
+{ word: "card", sound: "ar", position: "medial", image: "r-sound/word medial ar/card.png" },
+{ word: "cars", sound: "ar", position: "medial", image: "r-sound/word medial ar/cars.png" },
+{ word: "dart", sound: "ar", position: "medial", image: "r-sound/word medial ar/dart.png" },
+{ word: "farm", sound: "ar", position: "medial", image: "r-sound/word medial ar/farm.png" },
+{ word: "harp", sound: "ar", position: "medial", image: "r-sound/word medial ar/harp.png" },
+{ word: "dark", sound: "ar", position: "medial", image: "r-sound/word medial ar/dark.png" },
+{ word: "tarp", sound: "ar", position: "medial", image: "r-sound/word medial ar/tarp.png" },
+{ word: "yarn", sound: "ar", position: "medial", image: "r-sound/word medial ar/yarn.png" },
+{ word: "heart", sound: "ar", position: "medial", image: "r-sound/word medial ar/heart.png" },
+{ word: "shark", sound: "ar", position: "medial", image: "r-sound/word medial ar/shark.png" },
+{ word: "sharp", sound: "ar", position: "medial", image: "r-sound/word medial ar/sharp.png" },
+{ word: "pop tart", sound: "ar", position: "medial", image: "r-sound/word medial ar/pop tart.png" },
+{ word: "Mars", sound: "ar", position: "medial", image: "r-sound/word medial ar/mars.png" },
+{ word: "park", sound: "ar", position: "medial", image: "r-sound/word medial ar/park.png" },
+{ word: "charm", sound: "ar", position: "medial", image: "r-sound/word medial ar/charm.png" },
+{ word: "market", sound: "ar", position: "medial", image: "r-sound/word medial ar/market.png" },
+{ word: "party", sound: "ar", position: "medial", image: "r-sound/word medial ar/party.png" },
+{ word: "alarm", sound: "ar", position: "medial", image: "r-sound/word medial ar/alarm.png" },
+{ word: "marbles", sound: "ar", position: "medial", image: "r-sound/word medial ar/marbles.png" },
+{ word: "scarf", sound: "ar", position: "medial", image: "r-sound/word medial ar/scarf.png" },
+{ word: "barbecue", sound: "ar", position: "medial", image: "r-sound/word medial ar/barbecue.png" },
+
+{ word: "car", sound: "ar", position: "final", image: "r-sound/word final ar/car.png" },
+{ word: "far", sound: "ar", position: "final", image: "r-sound/word final ar/far.png" },
+{ word: "jar", sound: "ar", position: "final", image: "r-sound/word final ar/jar.png" },
+{ word: "scar", sound: "ar", position: "final", image: "r-sound/word final ar/scar.png" },
+{ word: "star", sound: "ar", position: "final", image: "r-sound/word final ar/star.png" },
+{ word: "guitar", sound: "ar", position: "final", image: "r-sound/word final ar/guitar.png" },
+{ word: "handlebar", sound: "ar", position: "final", image: "r-sound/word final ar/handlebar.png" },
+{ word: "tar", sound: "ar", position: "final", image: "r-sound/word final ar/tar.png" },
+{ word: "char", sound: "ar", position: "final", image: "r-sound/word final ar/char.png" },
+{ word: "ajar", sound: "ar", position: "final", image: "r-sound/word final ar/ajar.png" },
+{ word: "spar", sound: "ar", position: "final", image: "r-sound/word final ar/spar.png" },
+
+{ word: "ear", sound: "ear", position: "initial", image: "r-sound/word initial ear/ear.png" },
+{ word: "earring", sound: "ear", position: "initial", image: "r-sound/word initial ear/earring.png" },
+{ word: "ear plug", sound: "ear", position: "initial", image: "r-sound/word initial ear/ear plug.png" },
+{ word: "ear lobe", sound: "ear", position: "initial", image: "r-sound/word initial ear/ear lobe.png" },
+{ word: "ear muffs", sound: "ear", position: "initial", image: "r-sound/word initial ear/ear muffs.png" },
+{ word: "earbuds", sound: "ear", position: "initial", image: "r-sound/word initial ear/earbuds.png" },
+
+{ word: "here", sound: "ear", position: "medial", image: "r-sound/word medial ear/here.png" },
+{ word: "zero", sound: "ear", position: "medial", image: "r-sound/word medial ear/zero.png" },
+{ word: "beard", sound: "ear", position: "medial", image: "r-sound/word medial ear/beard.png" },
+{ word: "mirror", sound: "ear", position: "medial", image: "r-sound/word medial ear/mirror.png" },
+{ word: "gears", sound: "ear", position: "medial", image: "r-sound/word medial ear/gears.png" },
+{ word: "New Years", sound: "ear", position: "medial", image: "r-sound/word medial ear/new years.png" },
+{ word: "cheering", sound: "ear", position: "medial", image: "r-sound/word medial ear/cheering.png" },
+{ word: "cereal", sound: "ear", position: "medial", image: "r-sound/word medial ear/cereal.png" },
+{ word: "serious", sound: "ear", position: "medial", image: "r-sound/word medial ear/serious.png" },
+{ word: "cheerful", sound: "ear", position: "medial", image: "r-sound/word medial ear/cheerful.png" },
+{ word: "steering wheel", sound: "ear", position: "medial", image: "r-sound/word medial ear/steering wheel.png" },
+{ word: "cheerleader", sound: "ear", position: "medial", image: "r-sound/word medial ear/cheerleader.png" },
+{ word: "cafeteria", sound: "ear", position: "medial", image: "r-sound/word medial ear/cafeteria.png" },
+{ word: "material", sound: "ear", position: "medial", image: "r-sound/word medial ear/material.png" },
+{ word: "volunteer", sound: "ear", position: "medial", image: "r-sound/word medial ear/volunteer.png" },
+{ word: "tears", sound: "ear", position: "medial", image: "r-sound/word medial ear/tears.png" },
+{ word: "hearing aid", sound: "ear", position: "medial", image: "r-sound/word medial ear/hearing aid.png" },
+{ word: "yearbook", sound: "ear", position: "medial", image: "r-sound/word medial ear/yearbook.png" },
+{ word: "pyramid", sound: "ear", position: "medial", image: "r-sound/word medial ear/pyramid.png" },
+{ word: "shears", sound: "ear", position: "medial", image: "r-sound/word medial ear/shears.png" },
+{ word: "weird", sound: "ear", position: "medial", image: "r-sound/word medial ear/weird.png" },
+{ word: "spearmint gum", sound: "ear", position: "medial", image: "r-sound/word medial ear/spearmint gum.png" },
+
+{ word: "deer", sound: "ear", position: "final", image: "r-sound/word final ear/deer.png" },
+{ word: "steer", sound: "ear", position: "final", image: "r-sound/word final ear/steer.png" },
+{ word: "hear", sound: "ear", position: "final", image: "r-sound/word final ear/hear.png" },
+{ word: "clear", sound: "ear", position: "final", image: "r-sound/word final ear/clear.png" },
+{ word: "gear", sound: "ear", position: "final", image: "r-sound/word final ear/gear.png" },
+{ word: "cheer", sound: "ear", position: "final", image: "r-sound/word final ear/cheer.png" },
+{ word: "spear", sound: "ear", position: "final", image: "r-sound/word final ear/spear.png" },
+{ word: "ear", sound: "ear", position: "final", image: "r-sound/word final ear/ear.png" },
+{ word: "sphere", sound: "ear", position: "final", image: "r-sound/word final ear/sphere.png" },
+{ word: "near", sound: "ear", position: "final", image: "r-sound/word final ear/near.png" },
+{ word: "cashier", sound: "ear", position: "final", image: "r-sound/word final ear/cashier.png" },
+{ word: "here", sound: "ear", position: "final", image: "r-sound/word final ear/here.png" },
+{ word: "engineer", sound: "ear", position: "final", image: "r-sound/word final ear/engineer.png" },
+{ word: "souvenir", sound: "ear", position: "final", image: "r-sound/word final ear/souvenir.png" },
+{ word: "puppeteer", sound: "ear", position: "final", image: "r-sound/word final ear/puppeteer.png" },
+{ word: "smear", sound: "ear", position: "final", image: "r-sound/word final ear/smear.png" },
+
+{ word: "iron", sound: "ire", position: "initial", image: "r-sound/word initial ire/iron.png" },
+{ word: "Ireland", sound: "ire", position: "initial", image: "r-sound/word initial ire/ireland.png" },
+{ word: "ironing board", sound: "ire", position: "initial", image: "r-sound/word initial ire/ironing board.png" },
+{ word: "iris", sound: "ire", position: "initial", image: "r-sound/word initial ire/iris.png" },
+
+{ word: "pliers", sound: "ire", position: "medial", image: "r-sound/word medial ire/pliers.png" },
+{ word: "crying", sound: "ire", position: "medial", image: "r-sound/word medial ire/crying.png" },
+{ word: "wires", sound: "ire", position: "medial", image: "r-sound/word medial ire/wires.png" },
+{ word: "fires", sound: "ire", position: "medial", image: "r-sound/word medial ire/fires.png" },
+{ word: "fire fighter", sound: "ire", position: "medial", image: "r-sound/word medial ire/fire fighter.png" },
+{ word: "diary", sound: "ire", position: "medial", image: "r-sound/word medial ire/diary.png" },
+{ word: "tired", sound: "ire", position: "medial", image: "r-sound/word medial ire/tired.png" },
+{ word: "tires", sound: "ire", position: "medial", image: "r-sound/word medial ire/tires.png" },
+{ word: "firefly", sound: "ire", position: "medial", image: "r-sound/word medial ire/firefly.png" },
+{ word: "firewood", sound: "ire", position: "medial", image: "r-sound/word medial ire/firewood.png" },
+{ word: "firehouse", sound: "ire", position: "medial", image: "r-sound/word medial ire/firehouse.png" },
+{ word: "firecracker", sound: "ire", position: "medial", image: "r-sound/word medial ire/firecracker.png" },
+{ word: "siren", sound: "ire", position: "medial", image: "r-sound/word medial ire/siren.png" },
+{ word: "umpires", sound: "ire", position: "medial", image: "r-sound/word medial ire/umpires.png" },
+{ word: "sapphires", sound: "ire", position: "medial", image: "r-sound/word medial ire/sapphires.png" },
+{ word: "wireless", sound: "ire", position: "medial", image: "r-sound/word medial ire/wireless.png" },
+
+{ word: "fire", sound: "ire", position: "final", image: "r-sound/word final ire/fire.png" },
+{ word: "wire", sound: "ire", position: "final", image: "r-sound/word final ire/wire.png" },
+{ word: "choir", sound: "ire", position: "final", image: "r-sound/word final ire/choir.png" },
+{ word: "admire", sound: "ire", position: "final", image: "r-sound/word final ire/admire.png" },
+{ word: "buyer", sound: "ire", position: "final", image: "r-sound/word final ire/buyer.png" },
+{ word: "sapphire", sound: "ire", position: "final", image: "r-sound/word final ire/sapphire.png" },
+{ word: "attire", sound: "ire", position: "final", image: "r-sound/word final ire/attire.png" },
+{ word: "umpire", sound: "ire", position: "final", image: "r-sound/word final ire/umpire.png" },
+{ word: "vampire", sound: "ire", position: "final", image: "r-sound/word final ire/vampire.png" },
+{ word: "campfire", sound: "ire", position: "final", image: "r-sound/word final ire/campfire.png" },
+{ word: "bonfire", sound: "ire", position: "final", image: "r-sound/word final ire/bonfire.png" },
+{ word: "barbwire", sound: "ire", position: "final", image: "r-sound/word final ire/barbwire.png" },
+{ word: "wildfire", sound: "ire", position: "final", image: "r-sound/word final ire/wildfire.png" },
+{ word: "pacifier", sound: "ire", position: "final", image: "r-sound/word final ire/pacifier.png" },
+{ word: "tire", sound: "ire", position: "final", image: "r-sound/word final ire/tire.png" },
+{ word: "dryer", sound: "ire", position: "final", image: "r-sound/word final ire/dryer.png" },
+{ word: "expire", sound: "ire", position: "final", image: "r-sound/word final ire/expire.png" },
+
+{ word: "orca", sound: "or", position: "initial", image: "r-sound/word initial or/orca.png" },
+{ word: "orange", sound: "or", position: "initial", image: "r-sound/word initial or/orange.png" },
+{ word: "orbit", sound: "or", position: "initial", image: "r-sound/word initial or/orbit.png" },
+{ word: "organ", sound: "or", position: "initial", image: "r-sound/word initial or/organ.png" },
+{ word: "Oregon", sound: "or", position: "initial", image: "r-sound/word initial or/oregon.png" },
+{ word: "orchard", sound: "or", position: "initial", image: "r-sound/word initial or/orchard.png" },
+{ word: "orchid", sound: "or", position: "initial", image: "r-sound/word initial or/orchid.png" },
+{ word: "order", sound: "or", position: "initial", image: "r-sound/word initial or/order.png" },
+{ word: "oar", sound: "or", position: "initial", image: "r-sound/word initial or/oar.png" },
+{ word: "orange juice", sound: "or", position: "initial", image: "r-sound/word initial or/orange juice.png" },
+{ word: "ornament", sound: "or", position: "initial", image: "r-sound/word initial or/ornament.png" },
+{ word: "organize", sound: "or", position: "initial", image: "r-sound/word initial or/organize.png" },
+{ word: "orangutan", sound: "or", position: "initial", image: "r-sound/word initial or/orangutan.png" },
+{ word: "orchestra", sound: "or", position: "initial", image: "r-sound/word initial or/orchestra.png" },
+{ word: "organic", sound: "or", position: "initial", image: "r-sound/word initial or/organic.png" },
+
+{ word: "corn", sound: "or", position: "medial", image: "r-sound/word medial or/corn.png" },
+{ word: "cord", sound: "or", position: "medial", image: "r-sound/word medial or/cord.png" },
+{ word: "fork", sound: "or", position: "medial", image: "r-sound/word medial or/fork.png" },
+{ word: "fort", sound: "or", position: "medial", image: "r-sound/word medial or/fort.png" },
+{ word: "horn", sound: "or", position: "medial", image: "r-sound/word medial or/horn.png" },
+{ word: "sort", sound: "or", position: "medial", image: "r-sound/word medial or/sort.png" },
+{ word: "torn", sound: "or", position: "medial", image: "r-sound/word medial or/torn.png" },
+{ word: "warm", sound: "or", position: "medial", image: "r-sound/word medial or/warm.png" },
+{ word: "warn", sound: "or", position: "medial", image: "r-sound/word medial or/warn.png" },
+{ word: "board", sound: "or", position: "medial", image: "r-sound/word medial or/board.png" },
+{ word: "bored", sound: "or", position: "medial", image: "r-sound/word medial or/bored.png" },
+{ word: "board game", sound: "or", position: "medial", image: "r-sound/word medial or/board game.png" },
+{ word: "horse", sound: "or", position: "medial", image: "r-sound/word medial or/horse.png" },
+{ word: "porch", sound: "or", position: "medial", image: "r-sound/word medial or/porch.png" },
+{ word: "short", sound: "or", position: "medial", image: "r-sound/word medial or/short.png" },
+{ word: "chores", sound: "or", position: "medial", image: "r-sound/word medial or/chores.png" },
+{ word: "fourth", sound: "or", position: "medial", image: "r-sound/word medial or/fourth.png" },
+
+{ word: "corn", sound: "or", position: "medial", image: "r-sound/word medial or/corn.png" },
+{ word: "cord", sound: "or", position: "medial", image: "r-sound/word medial or/cord.png" },
+{ word: "fork", sound: "or", position: "medial", image: "r-sound/word medial or/fork.png" },
+{ word: "fort", sound: "or", position: "medial", image: "r-sound/word medial or/fort.png" },
+{ word: "horn", sound: "or", position: "medial", image: "r-sound/word medial or/horn.png" },
+{ word: "sort", sound: "or", position: "medial", image: "r-sound/word medial or/sort.png" },
+{ word: "torn", sound: "or", position: "medial", image: "r-sound/word medial or/torn.png" },
+{ word: "warm", sound: "or", position: "medial", image: "r-sound/word medial or/warm.png" },
+{ word: "warn", sound: "or", position: "medial", image: "r-sound/word medial or/warn.png" },
+{ word: "bored", sound: "or", position: "medial", image: "r-sound/word medial or/bored.png" },
+{ word: "horse", sound: "or", position: "medial", image: "r-sound/word medial or/horse.png" },
+{ word: "porch", sound: "or", position: "medial", image: "r-sound/word medial or/porch.png" },
+{ word: "shorts", sound: "or", position: "medial", image: "r-sound/word medial or/shorts.png" },
+{ word: "chores", sound: "or", position: "medial", image: "r-sound/word medial or/chores.png" },
+{ word: "fourth", sound: "or", position: "medial", image: "r-sound/word medial or/fourth.png" },
+
+{ word: "core", sound: "or", position: "final", image: "r-sound/word final or/core.png" },
+{ word: "door", sound: "or", position: "final", image: "r-sound/word final or/door.png" },
+{ word: "oar", sound: "or", position: "final", image: "r-sound/word final or/oar.png" },
+{ word: "more", sound: "or", position: "final", image: "r-sound/word final or/more.png" },
+{ word: "shore", sound: "or", position: "final", image: "r-sound/word final or/shore.png" },
+{ word: "snore", sound: "or", position: "final", image: "r-sound/word final or/snore.png" },
+{ word: "four", sound: "or", position: "final", image: "r-sound/word final or/four.png" },
+{ word: "sore", sound: "or", position: "final", image: "r-sound/word final or/sore.png" },
+{ word: "pour", sound: "or", position: "final", image: "r-sound/word final or/pour.png" },
+{ word: "score", sound: "or", position: "final", image: "r-sound/word final or/score.png" },
+{ word: "store", sound: "or", position: "final", image: "r-sound/word final or/store.png" },
+{ word: "outdoor", sound: "or", position: "final", image: "r-sound/word final or/outdoor.png" },
+{ word: "explore", sound: "or", position: "final", image: "r-sound/word final or/explore.png" },
+{ word: "dinosaur", sound: "or", position: "final", image: "r-sound/word final or/dinosaur.png" },
+{ word: "ignore", sound: "or", position: "final", image: "r-sound/word final or/ignore.png" },
+{ word: "tore", sound: "or", position: "final", image: "r-sound/word final or/tore.png" },
+
+{ word: "earth", sound: "er", position: "initial", image: "r-sound/word initial er/earth.png" },
+{ word: "early", sound: "er", position: "initial", image: "r-sound/word initial er/early.png" },
+{ word: "urchin", sound: "er", position: "initial", image: "r-sound/word initial er/urchin.png" },
+{ word: "earthworm", sound: "er", position: "initial", image: "r-sound/word initial er/earthworm.png" },
+{ word: "herbal tea", sound: "er", position: "initial", image: "r-sound/word initial er/herbal tea.png" },
+{ word: "herb", sound: "er", position: "initial", image: "r-sound/word initial er/herb.png" },
+{ word: "earthquake", sound: "er", position: "initial", image: "r-sound/word initial er/earthquake.png" },
+{ word: "earn", sound: "er", position: "initial", image: "r-sound/word initial er/earn.png" },
+
+{ word: "scissors", sound: "er", position: "medial", image: "r-sound/word medial er/scissors.png" },
+{ word: "exercise", sound: "er", position: "medial", image: "r-sound/word medial er/exercise.png" },
+{ word: "paper clip", sound: "er", position: "medial", image: "r-sound/word medial er/paper-clip.png" },
+{ word: "purse", sound: "er", position: "medial", image: "r-sound/word medial er/purse.png" },
+{ word: "fern", sound: "er", position: "medial", image: "r-sound/word medial er/fern.png" },
+{ word: "learn", sound: "er", position: "medial", image: "r-sound/word medial er/learn.png" },
+{ word: "burn", sound: "er", position: "medial", image: "r-sound/word medial er/burn.png" },
+{ word: "nurse", sound: "er", position: "medial", image: "r-sound/word medial er/nurse.png" },
+{ word: "mermaid", sound: "er", position: "medial", image: "r-sound/word medial er/mermaid.png" },
+{ word: "perfume", sound: "er", position: "medial", image: "r-sound/word medial er/perfume.png" },
+{ word: "emergency", sound: "er", position: "medial", image: "r-sound/word medial er/emergency.png" },
+{ word: "circle", sound: "er", position: "medial", image: "r-sound/word medial er/circle.png" },
+{ word: "jersey", sound: "er", position: "medial", image: "r-sound/word medial er/jersey.png" },
+{ word: "person", sound: "er", position: "medial", image: "r-sound/word medial er/person.png" },
+{ word: "lantern", sound: "er", position: "medial", image: "r-sound/word medial er/lantern.png" },
+{ word: "battery", sound: "er", position: "medial", image: "r-sound/word medial er/battery.png" },
+{ word: "giraffe", sound: "er", position: "medial", image: "r-sound/word medial er/giraffe.png" },
+{ word: "hurt", sound: "er", position: "medial", image: "r-sound/word medial er/hurt.png" },
+{ word: "jewelry", sound: "er", position: "medial", image: "r-sound/word medial er/jewelry.png" },
+{ word: "dirty", sound: "er", position: "medial", image: "r-sound/word medial er/dirty.png" },
+{ word: "celery", sound: "er", position: "medial", image: "r-sound/word medial er/celery.png" },
+{ word: "turkey", sound: "er", position: "medial", image: "r-sound/word medial er/turkey.png" },
+
+{ word: "summer", sound: "er", position: "final", image: "r-sound/word final er/summer.png" },
+{ word: "mother", sound: "er", position: "final", image: "r-sound/word final er/mother.png" },
+{ word: "burner", sound: "er", position: "final", image: "r-sound/word final er/burner.png" },
+{ word: "father", sound: "er", position: "final", image: "r-sound/word final er/father.png" },
+{ word: "dollar", sound: "er", position: "final", image: "r-sound/word final er/dollar.png" },
+{ word: "flower", sound: "er", position: "final", image: "r-sound/word final er/flower.png" },
+{ word: "letter", sound: "er", position: "final", image: "r-sound/word final er/letter.png" },
+{ word: "feather", sound: "er", position: "final", image: "r-sound/word final er/feather.png" },
+{ word: "computer", sound: "er", position: "final", image: "r-sound/word final er/computer.png" },
+{ word: "anchor", sound: "er", position: "final", image: "r-sound/word final er/anchor.png" },
+{ word: "farmer", sound: "er", position: "final", image: "r-sound/word final er/farmer.png" },
+{ word: "sweater", sound: "er", position: "final", image: "r-sound/word final er/sweater.png" },
+{ word: "water", sound: "er", position: "final", image: "r-sound/word final er/water.png" },
+{ word: "beaver", sound: "er", position: "final", image: "r-sound/word final er/beaver.png" },
+{ word: "tower", sound: "er", position: "final", image: "r-sound/word final er/tower.png" },
+
+{ word: "banana", sound: "multisyllabic", position: "3", image: "multisyllabic3/banana.png" },
+{ word: "hamburger", sound: "multisyllabic", position: "3", image: "multisyllabic3/hamburger.png" },
+{ word: "pineapple", sound: "multisyllabic", position: "3", image: "multisyllabic3/pineapple.png" },
+{ word: "tomato", sound: "multisyllabic", position: "3", image: "multisyllabic3/tomato.png" },
+{ word: "butterfly", sound: "multisyllabic", position: "3", image: "multisyllabic3/butterfly.png" },
+{ word: "popsicle", sound: "multisyllabic", position: "3", image: "multisyllabic3/popsicle.png" },
+{ word: "ladybug", sound: "multisyllabic", position: "3", image: "multisyllabic3/ladybug.png" },
+{ word: "applesauce", sound: "multisyllabic", position: "3", image: "multisyllabic3/applesauce.png" },
+{ word: "ambulance", sound: "multisyllabic", position: "3", image: "multisyllabic3/ambulance.png" },
+{ word: "spaghetti", sound: "multisyllabic", position: "3", image: "multisyllabic3/sphagetti.png" },
+{ word: "bicycle", sound: "multisyllabic", position: "3", image: "multisyllabic3/bicycle.png" },
+{ word: "elephant", sound: "multisyllabic", position: "3", image: "multisyllabic3/elephant.png" },
+{ word: "lollipop", sound: "multisyllabic", position: "3", image: "multisyllabic3/lollipop.png" },
+{ word: "dinosaur", sound: "multisyllabic", position: "3", image: "multisyllabic3/dinosaur.png" },
+{ word: "firetruck", sound: "multisyllabic", position: "3", image: "multisyllabic3/firetruck.png" },
+{ word: "octopus", sound: "multisyllabic", position: "3", image: "multisyllabic3/octopus.png" },
+{ word: "basketball", sound: "multisyllabic", position: "3", image: "multisyllabic3/basketball.png" },
+{ word: "coconut", sound: "multisyllabic", position: "3", image: "multisyllabic3/coconut.png" },
+{ word: "animal", sound: "multisyllabic", position: "3", image: "multisyllabic3/animal.png" },
+{ word: "cucumber", sound: "multisyllabic", position: "3", image: "multisyllabic3/cucumber.png" },
+{ word: "vegetable", sound: "multisyllabic", position: "3", image: "multisyllabic3/vegetable.png" },
+{ word: "alphabet", sound: "multisyllabic", position: "3", image: "multisyllabic3/alphabet.png" },
+
+{ word: "antarctica", sound: "multisyllabic", position: "4", image: "multisyllabic4/antarctica.png" },
+{ word: "asparagus", sound: "multisyllabic", position: "4", image: "multisyllabic4/asparagus.png" },
+{ word: "escalator", sound: "multisyllabic", position: "4", image: "multisyllabic4/escalator.png" },
+{ word: "alligator", sound: "multisyllabic", position: "4", image: "multisyllabic4/alligator.png" },
+{ word: "custodian", sound: "multisyllabic", position: "4", image: "multisyllabic4/custodian.png" },
+{ word: "deodorant", sound: "multisyllabic", position: "4", image: "multisyllabic4/deodorant.png" },
+{ word: "helicopter", sound: "multisyllabic", position: "4", image: "multisyllabic4/helicopter.png" },
+{ word: "Cinderella", sound: "multisyllabic", position: "4", image: "multisyllabic4/Cinderella.png" },
+{ word: "binoculars", sound: "multisyllabic", position: "4", image: "multisyllabic4/binoculars.png" },
+{ word: "jack-o-lantern", sound: "multisyllabic", position: "4", image: "multisyllabic4/jack-o-lantern.png" },
+{ word: "calculator", sound: "multisyllabic", position: "4", image: "multisyllabic4/calculator.png" },
+{ word: "television", sound: "multisyllabic", position: "4", image: "multisyllabic4/television.png" },
+{ word: "avocado", sound: "multisyllabic", position: "4", image: "multisyllabic4/avocado.png" },
+
+{ word: "hippopotamus", sound: "multisyllabic", position: "5", image: "multisyllabic5/hippopotamus.png" },
+{ word: "veterinarian", sound: "multisyllabic", position: "5", image: "multisyllabic5/veterinarian.png" },
+{ word: "cornucopia", sound: "multisyllabic", position: "5", image: "multisyllabic5/cornucopia.png" },
+{ word: "imagination", sound: "multisyllabic", position: "5", image: "multisyllabic5/imagination.png" },
+{ word: "communication", sound: "multisyllabic", position: "5", image: "multisyllabic5/communication.png" },
+{ word: "auditorium", sound: "multisyllabic", position: "5", image: "multisyllabic5/auditorium.png" },
+{ word: "parellelogram", sound: "multisyllabic", position: "5", image: "multisyllabic5/parellelogram.png" },
+{ word: "uncomfortable", sound: "multisyllabic", position: "5", image: "multisyllabic5/uncomfortable.png" },
+{ word: "appreciation", sound: "multisyllabic", position: "5", image: "multisyllabic5/appreciation.png" },
+{ word: "elementary", sound: "multisyllabic", position: "5", image: "multisyllabic5/elementary.png" },
+{ word: "experimenting", sound: "multisyllabic", position: "5", image: "multisyllabic5/experimenting.png" },
+{ word: "potato salad", sound: "multisyllabic", position: "5", image: "multisyllabic5/potato salad.png" },
+{ word: "unbelievable", sound: "multisyllabic", position: "5", image: "multisyllabic5/unbelievable.png" },
+{ word: "accidentally", sound: "multisyllabic", position: "5", image: "multisyllabic5/accidentally.png" },
+{ word: "abracadabra", sound: "multisyllabic", position: "5", image: "multisyllabic5/abracadabra.png" },
+{ word: "cafeteria", sound: "multisyllabic", position: "5", image: "multisyllabic5/cafeteria.png" },
+{ word: "flexibility", sound: "multisyllabic", position: "5", image: "multisyllabic5/flexibility.png" },
+{ word: "imaginative", sound: "multisyllabic", position: "5", image: "multisyllabic5/imaginative.png" },
+{ word: "macadamia", sound: "multisyllabic", position: "5", image: "multisyllabic5/macadamia.png" },
+
+    ];
+
+    function pickRandom(list) {
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+function generateSentence() {
+const selectedSounds = Array.from(
+  document.querySelectorAll("#soundFilter input:checked")
+).map(box => box.value);  const level = document.getElementById("levelSelect").value;
+
+
+if (selectedSounds.length === 0) {
+  document.getElementById("sentence").textContent =
+    "Choose at least one sound.";
+
+  document.getElementById("pictures").innerHTML = "";
+
+  return;
+}
+
+const filteredTargets =
+  selectedSounds.length === 0
+    ? []
+    : targetWords.filter(item =>
+        selectedSounds.includes(`${item.sound}-${item.position}`)
+      );
+
+  if (filteredTargets.length === 0) {
+    document.getElementById("sentence").textContent = "No words found for that sound.";
+    return;
+  }
+
+const selectedWord = pickRandom(filteredTargets);
+const sound =
+  selectedWord.sound === "s-blends"
+    ? `${selectedWord.sound}-${selectedWord.position}`
+    : selectedWord.sound;
+const noun = pickRandom(nouns);
+const verb = pickRandom(verbs);
+
+let generatedText = "";
+
+if (level === "word") {
+  generatedText = selectedWord.word;
+}
+
+const phraseStarters = [
+  "the big",
+  "my little",
+  "a funny",
+  "a happy",
+  "the green",
+  "my favorite",
+  "the stinky",
+  "three tiny",
+  "small yellow",
+ "a shiny",
+ "the nice",
+ "very silly",
+ "super sleepy",
+ "giant blue",
+  "cute blue",
+  "I see the",
+  "I want a",
+  "There is the",
+  "Look at the",
+  "You have a",
+];
+
+if (level === "phrase") {
+  const starter = pickRandom(phraseStarters);
+  generatedText = `${starter} ${selectedWord.word}`;
+}
+
+if (level === "sentence") {
+  generatedText = `The ${noun.word} ${verb.word} the ${selectedWord.word}.`;
+}
+
+if (level === "word") {
+  document.getElementById("sentence").textContent = "";
+} else {
+  document.getElementById("sentence").textContent = generatedText;
+}
+
+     if (level === "sentence") {
+  document.getElementById("pictures").innerHTML = `
+    <div class="word-card">
+      <img src="${noun.image}" alt="${noun.word}" />
+      <p>${noun.word}</p>
+    </div>
+
+    <div class="word-card">
+      <img src="${verb.image}" alt="${verb.word}" />
+      <p>${verb.word}</p>
+    </div>
+
+    <div class="word-card">
+      <img src="${selectedWord.image}" alt="${selectedWord.word}" />
+      <p>${selectedWord.word}</p>
+    </div>
+  `;
+} else {
+  const promptCard =
+    level === "word" && soundPrompts[sound]
+      ? `
+         <div class="word-card prompt-card">
+          <img src="${soundPrompts[sound]}" alt="Sound prompt" />
+    
+        </div>
+      `
+      : "";
+
+  document.getElementById("pictures").innerHTML = `
+    <div class="word-card">
+      <img src="${selectedWord.image}" alt="${selectedWord.word}" />
+      <p>${selectedWord.word}</p>
+    </div>
+
+    ${promptCard}
+  `;
+}
+
+makePracticeDots(10);
+
+}
+
+function makePracticeDots(number = 10) {
+  const dotsArea = document.getElementById("practiceDots");
+  dotsArea.innerHTML = "";
+
+  for (let i = 0; i < number; i++) {
+    const dot = document.createElement("button");
+    dot.className = "practice-dot";
+    dot.textContent = "";
+
+dot.onclick = function () {
+  dot.classList.toggle("completed");
+  const completed = dot.classList.contains("completed");
+
+  dot.textContent = completed ? "⭐" : "";
+
+  if (completed) {
+    const sound = new Audio("sounds/star.mp3");
+    sound.volume = 0.8;
+
+    sound.play().catch(error => {
+      console.log("Sound did not play. Check the file path:", error);
+    });
+
+if (
+  document.querySelectorAll(".practice-dot.completed").length === 10
+) {
+
+  const celebration = new Audio("sounds/celebration.mp3");
+  celebration.volume = 0.8;
+  celebration.play();
+
+  confetti({
+    particleCount: 800,
+    spread: 400,
+    startVelocity: 70,
+    scalar: 1.5,
+    origin: { y: 0.6 }
+  });
+}
+  }
+};
+
+dotsArea.appendChild(dot);
+
+  }
+}
+
+function resetSounds() {
+  const checkboxes = document.querySelectorAll(
+    "#soundFilter input[type='checkbox']"
+  );
+
+  checkboxes.forEach(box => {
+    box.checked = false;
+  });
+
+  document.getElementById("sentence").textContent =
+    "Press the button!";
+
+  document.getElementById("pictures").innerHTML = "";
+document.getElementById("practiceDots").innerHTML = "";
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+</body>
+</html>
